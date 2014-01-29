@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF8"?>
+
+<configuration debug="false"> 
+
+  <appender name="test" class="org.usrz.libs.logging.AppenderForTests"/>
+
+  <appender name="stderr" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.err</target>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- THE TESTS RUN ALL AT TRACE  -->
+
+  <logger name="org.usrz.libs.logging" level="trace" additivity="false">
+    <appender-ref ref="test" />
+   </logger>
+
+  <!-- APART FROM THE VARIOUS LEVELS TEST  -->
+
+  <logger name="org.usrz.libs.logging.LevelErrorTest" level="error" additivity="false">
+    <appender-ref ref="test" />
+   </logger>
+
+  <logger name="org.usrz.libs.logging.LevelWarningTest" level="warn" additivity="false">
+    <appender-ref ref="test" />
+   </logger>
+
+  <logger name="org.usrz.libs.logging.LevelInfoTest" level="info" additivity="false">
+    <appender-ref ref="test" />
+   </logger>
+
+  <logger name="org.usrz.libs.logging.LevelDebugTest" level="debug" additivity="false">
+    <appender-ref ref="test" />
+   </logger>
+
+  <logger name="org.usrz.libs.logging.LevelTraceTest" level="trace" additivity="false">
+    <appender-ref ref="test" />
+   </logger>
+
+  <!-- AND OUR API (we don't want this to hit the test logger)  -->
+
+  <logger name="org.usrz.libs.logging.Logging" level="debug" additivity="false">
+    <appender-ref ref="stderr" />
+   </logger>
+
+  <!--  OR ANY OTHER STUPID CLASS -->
+
+  <root level="trace">
+    <appender-ref ref="stderr" />
+  </root>
+
+</configuration>
