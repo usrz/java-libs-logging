@@ -22,12 +22,19 @@ import java.util.Vector;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+/**
+ * A logging bridge (or in other words a <i>logger factory<i> implementation) for
+ * <a href="http://docs.oracle.com/javase/7/docs/api/java/util/logging/package-summary.html">Java's Logging API (<i>java.util.logging</i>)</a>.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public class JavaLoggingBridge extends LogManager {
 
     public JavaLoggingBridge() {
         super();
     }
 
+    @Override
     public JavaLoggingAdapter getLogger(String name) {
         return new JavaLoggingAdapter(name);
     }
@@ -36,26 +43,32 @@ public class JavaLoggingBridge extends LogManager {
     /* Utterly useless methods                                                */
     /* ====================================================================== */
 
+    @Override
     public boolean addLogger(Logger logger) {
         return false;
     }
 
+    @Override
     public Enumeration<String> getLoggerNames() {
         return new Vector<String>().elements();
     }
 
+    @Override
     public String getProperty(String name) {
         return null;
     }
 
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         return;
     }
 
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         return;
     }
 
+    @Override
     public void reset() {
         return;
     }
@@ -64,14 +77,17 @@ public class JavaLoggingBridge extends LogManager {
     /* Even more utterly useless methods                                      */
     /* ====================================================================== */
 
+    @Override
     public void checkAccess() {
         throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
     }
 
+    @Override
     public void readConfiguration() {
         throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
     }
 
+    @Override
     public void readConfiguration(InputStream inputStream) {
         throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
     }

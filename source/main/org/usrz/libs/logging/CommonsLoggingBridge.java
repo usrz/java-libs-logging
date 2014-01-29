@@ -17,6 +17,12 @@ package org.usrz.libs.logging;
 
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * A logging bridge (or in other words a <i>logger factory<i> implementation) for
+ * <a href="http://commons.apache.org/proper/commons-logging/">Apache Commons Logging</a>.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public class CommonsLoggingBridge extends LogFactory {
 
     @Override @SuppressWarnings("rawtypes")

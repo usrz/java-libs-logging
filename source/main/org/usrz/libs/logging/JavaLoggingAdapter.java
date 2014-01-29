@@ -24,6 +24,12 @@ import java.util.logging.Logger;
 
 import org.slf4j.LoggerFactory;
 
+/**
+ * A logging adapter (or in other words a <i>logger<i> implementation) for
+ * <a href="http://docs.oracle.com/javase/7/docs/api/java/util/logging/package-summary.html">Java's Logging API (<i>java.util.logging</i>)</a>.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public final class JavaLoggingAdapter extends Logger {
 
     private static final int OFF     = Level.OFF.intValue();
@@ -66,6 +72,7 @@ public final class JavaLoggingAdapter extends Logger {
 
     /* ====================================================================== */
 
+    @Override
     public void log(LogRecord record) {
         if (record.getLevel().intValue() < levelValue || levelValue == OFF) {
             return;
@@ -104,14 +111,17 @@ public final class JavaLoggingAdapter extends Logger {
 
     /* ====================================================================== */
 
+    @Override
     public void setLevel(Level newLevel) {
         throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
     }
 
+    @Override
     public void addHandler(Handler handler) {
         throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
     }
 
+    @Override
     public void removeHandler(Handler handler) {
         throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
     }

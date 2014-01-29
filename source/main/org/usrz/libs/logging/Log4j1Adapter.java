@@ -21,6 +21,12 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A logging adapter (or in other words a <i>logger<i> implementation) for
+ * <a href="http://logging.apache.org/log4j/1.2/">Apache Log4j 1.2</a>.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public class Log4j1Adapter extends Logger {
 
     private final org.slf4j.Logger logger;
@@ -38,14 +44,17 @@ public class Log4j1Adapter extends Logger {
                        Level.OFF);
     }
 
+    @Override
     public void setLevel(Level level) {
         /* Do nothing */
     }
 
+    @Override
     public Level getEffectiveLevel() {
         return getLevel();
     }
 
+    @Override
     public void callAppenders(LoggingEvent event) {
         final Level level = event.getLevel();
         if (level.equals(Level.OFF)) return;

@@ -29,24 +29,34 @@ import org.apache.log4j.spi.LoggerFactory;
 import org.apache.log4j.spi.LoggerRepository;
 import org.apache.log4j.spi.RepositorySelector;
 
+/**
+ * A logging bridge (or in other words a <i>logger factory<i> implementation) for
+ * <a href="http://logging.apache.org/log4j/1.2/">Apache Log4j 1.2</a>.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public class Log4j1Bridge implements RepositorySelector, LoggerRepository {
 
     public Log4j1Bridge() {
         /* Do nothing */
     }
 
+    @Override
     public LoggerRepository getLoggerRepository() {
         return this;
     }
 
+    @Override
     public Logger getLogger(final String name) {
         return new Log4j1Adapter(this, name);
     }
 
+    @Override
     public Logger getLogger(final String name, final LoggerFactory factory) {
         return new Log4j1Adapter(this, name);
     }
 
+    @Override
     public Logger getRootLogger() {
         return new Log4j1Adapter(this, ROOT_LOGGER_NAME);
     }
@@ -55,52 +65,64 @@ public class Log4j1Bridge implements RepositorySelector, LoggerRepository {
     /* Utterly useless methods                                                */
     /* ====================================================================== */
 
+    @Override
     public void addHierarchyEventListener(final HierarchyEventListener listener) {
         /* Do nothing */
     }
 
+    @Override
     public boolean isDisabled(final int level) {
         return false;
     }
 
+    @Override
     public void setThreshold(final Level level) {
         /* Do nothing */
     }
 
+    @Override
     public void setThreshold(final String val) {
         /* Do nothing */
     }
 
+    @Override
     public void emitNoAppenderWarning(final Category cat) {
         /* Do nothing */
     }
 
+    @Override
     public Level getThreshold() {
         return Level.ALL;
     }
 
+    @Override
     public Logger exists(final String name) {
         return null;
     }
 
+    @Override
     public void shutdown() {
         /* Do nothing */
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public Enumeration getCurrentLoggers() {
         return new Vector().elements();
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public Enumeration getCurrentCategories() {
         return getCurrentLoggers();
     }
 
+    @Override
     public  void fireAddAppenderEvent(Category logger, Appender appender) {
         /* Do nothing */
     }
 
+    @Override
     public void resetConfiguration() {
         /* Do nothing */
     }

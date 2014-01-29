@@ -24,6 +24,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MarkerFactory;
 
+/**
+ * A logging adapter (or in other words a <i>logger<i> implementation) for
+ * <a href="http://logging.apache.org/log4j/2.x/">Apache Log4j 2</a>.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public final class Log4j2Adapter extends AbstractLogger {
 
     private final Logger logger;

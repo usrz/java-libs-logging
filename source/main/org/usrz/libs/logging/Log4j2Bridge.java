@@ -22,6 +22,12 @@ import org.apache.logging.log4j.message.MessageFactory;
 import org.apache.logging.log4j.spi.LoggerContext;
 import org.apache.logging.log4j.spi.LoggerContextFactory;
 
+/**
+ * A logging bridge (or in other words a <i>logger factory<i> implementation) for
+ * <a href="http://logging.apache.org/log4j/2.x/">Apache Log4j 2</a>.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public class Log4j2Bridge
 implements LoggerContextFactory, LoggerContext {
 
@@ -35,32 +41,39 @@ implements LoggerContextFactory, LoggerContext {
 
     /* ====================================================================== */
 
+    @Override
     public LoggerContext getContext(String fqcn, ClassLoader loader, boolean currentContext) {
         return this;
     }
 
+    @Override
     public LoggerContext getContext(String fqcn, ClassLoader loader, boolean currentContext, URI configLocation) {
         return this;
     }
 
     /* ====================================================================== */
 
+    @Override
     public void removeContext(LoggerContext context) {
         /* Nothing to do */
     }
 
+    @Override
     public Object getExternalContext() {
         return null;
     }
 
+    @Override
     public Logger getLogger(String name) {
         return new Log4j2Adapter(name);
     }
 
+    @Override
     public Logger getLogger(String name, MessageFactory factory) {
         return new Log4j2Adapter(name, factory);
     }
 
+    @Override
     public boolean hasLogger(String name) {
         return true;
     }

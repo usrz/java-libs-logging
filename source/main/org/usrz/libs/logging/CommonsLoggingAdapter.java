@@ -18,6 +18,12 @@ package org.usrz.libs.logging;
 import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 
+/**
+ * A logging adapter (or in other words a <i>logger<i> implementation) for
+ * <a href="http://commons.apache.org/proper/commons-logging/">Apache Commons Logging</a>.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public final class CommonsLoggingAdapter implements Log {
 
     private final Logger logger;
@@ -28,32 +34,39 @@ public final class CommonsLoggingAdapter implements Log {
 
     /* ====================================================================== */
 
+    @Override
     public boolean isTraceEnabled() {
         return logger.isTraceEnabled();
     }
 
+    @Override
     public boolean isDebugEnabled() {
         return logger.isDebugEnabled();
     }
 
+    @Override
     public boolean isInfoEnabled() {
         return logger.isInfoEnabled();
     }
 
+    @Override
     public boolean isWarnEnabled() {
         return logger.isWarnEnabled();
     }
 
+    @Override
     public boolean isErrorEnabled() {
         return logger.isErrorEnabled();
     }
 
+    @Override
     public boolean isFatalEnabled() {
         return logger.isErrorEnabled();
     }
 
     /* ====================================================================== */
 
+    @Override
     public void trace(Object message) {
         if (logger.isTraceEnabled()) {
             if (message == null) logger.trace("Null message");
@@ -65,6 +78,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void trace(Object message, Throwable throwable) {
         if (logger.isTraceEnabled()) {
             if (message == null) logger.trace("Null message", throwable);
@@ -76,6 +90,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void debug(Object message) {
         if (logger.isDebugEnabled()) {
             if (message == null) logger.debug("Null message");
@@ -87,6 +102,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void debug(Object message, Throwable throwable) {
         if (logger.isDebugEnabled()) {
             if (message == null) logger.debug("Null message", throwable);
@@ -98,6 +114,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void info(Object message) {
         if (logger.isInfoEnabled()) {
             if (message == null) logger.info("Null message");
@@ -109,6 +126,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void info(Object message, Throwable throwable) {
         if (logger.isInfoEnabled()) {
             if (message == null) logger.info("Null message", throwable);
@@ -120,6 +138,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void warn(Object message) {
         if (logger.isWarnEnabled()) {
             if (message == null) logger.warn("Null message");
@@ -131,6 +150,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void warn(Object message, Throwable throwable) {
         if (logger.isWarnEnabled()) {
             if (message == null) logger.warn("Null message", throwable);
@@ -142,6 +162,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void error(Object message) {
         if (logger.isErrorEnabled()) {
             if (message == null) logger.error("Null message");
@@ -153,6 +174,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void error(Object message, Throwable throwable) {
         if (logger.isErrorEnabled()) {
             if (message == null) logger.error("Null message", throwable);
@@ -164,6 +186,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void fatal(Object message) {
         if (logger.isErrorEnabled()) {
             if (message == null) logger.error("Null message");
@@ -175,6 +198,7 @@ public final class CommonsLoggingAdapter implements Log {
         }
     }
 
+    @Override
     public void fatal(Object message, Throwable throwable) {
         if (logger.isErrorEnabled()) {
             if (message == null) logger.error("Null message", throwable);
