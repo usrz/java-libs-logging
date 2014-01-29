@@ -41,6 +41,8 @@ import org.slf4j.LoggerFactory;
  */
 public class Log {
 
+    static { Logging.init(); }
+
     public static final Log ROOT_LOG = new Log(Logger.ROOT_LOGGER_NAME);
 
     private final Logger logger;
