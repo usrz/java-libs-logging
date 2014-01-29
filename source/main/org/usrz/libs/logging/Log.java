@@ -39,11 +39,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
  */
-public class Log {
+public final  class Log {
 
     static { Logging.init(); }
 
-    public static final Log ROOT_LOG = new Log(Logger.ROOT_LOGGER_NAME);
+    public final static Log ROOT_LOG = new Log(Logger.ROOT_LOGGER_NAME);
 
     private final Logger logger;
 
@@ -67,7 +67,7 @@ public class Log {
     /**
      * Return the name of this {@link Log}.
      */
-    public String getName() {
+    public final String getName() {
         return logger.getName();
     }
 
@@ -75,7 +75,7 @@ public class Log {
      * Usual {@link String} representation FTW.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return this.getClass().getName() + "[" + getName() + "]@" + hashCode();
     }
 
@@ -91,7 +91,7 @@ public class Log {
      * @deprecated Because you shouldn't use it!
      */
     @Deprecated
-    public boolean isTraceEnabled() {
+    public final boolean isTraceEnabled() {
         return logger.isTraceEnabled();
     }
 
@@ -100,7 +100,7 @@ public class Log {
     /**
      * Log a simple message at <b>TRACE</b> level.
      */
-    public Log trace(String message) {
+    public final Log trace(String message) {
         if (logger.isTraceEnabled()) {
             logger.trace(message);
         }
@@ -115,7 +115,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log trace(String format, Object parameter1) {
+    public final Log trace(String format, Object parameter1) {
         if (logger.isTraceEnabled()) {
             logger.trace(String.format(format == null ? "Null format" : format,
                                        parameter1));
@@ -131,7 +131,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log trace(String format, Object parameter1, Object parameter2) {
+    public final Log trace(String format, Object parameter1, Object parameter2) {
         if (logger.isTraceEnabled()) {
             logger.trace(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2));
@@ -147,7 +147,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log trace(String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log trace(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isTraceEnabled()) {
             logger.trace(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3));
@@ -160,7 +160,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log trace(String format, Object... parameters) {
+    public final Log trace(String format, Object... parameters) {
         if (logger.isTraceEnabled()) {
             logger.trace(String.format(format == null ? "Null format" : format,
                                        parameters));
@@ -176,7 +176,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #trace(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log trace(String message, Throwable throwable) {
+    public final Log trace(String message, Throwable throwable) {
         if (logger.isTraceEnabled()) {
             logger.trace(message, throwable);
         }
@@ -191,7 +191,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #trace(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log trace(Throwable throwable, String message) {
+    public final Log trace(Throwable throwable, String message) {
         if (logger.isTraceEnabled()) {
             logger.trace(message, throwable);
         }
@@ -206,7 +206,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log trace(Throwable throwable, String format, Object parameter1) {
+    public final Log trace(Throwable throwable, String format, Object parameter1) {
         if (logger.isTraceEnabled()) {
             logger.trace(String.format(format == null ? "Null format" : format,
                                        parameter1),
@@ -223,7 +223,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log trace(Throwable throwable, String format, Object parameter1, Object parameter2) {
+    public final Log trace(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isTraceEnabled()) {
             logger.trace(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2),
@@ -240,7 +240,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log trace(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log trace(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isTraceEnabled()) {
             logger.trace(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3),
@@ -254,7 +254,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log trace(Throwable throwable, String format, Object... parameters) {
+    public final Log trace(Throwable throwable, String format, Object... parameters) {
         if (logger.isTraceEnabled()) {
             logger.trace(String.format(format == null ? "Null format" : format,
                                        parameters),
@@ -273,7 +273,7 @@ public class Log {
      * @deprecated Because you shouldn't use it!
      */
     @Deprecated
-    public boolean isDebugEnabled() {
+    public final boolean isDebugEnabled() {
         return logger.isDebugEnabled();
     }
 
@@ -282,7 +282,7 @@ public class Log {
     /**
      * Log a simple message at <b>DEBUG</b> level.
      */
-    public Log debug(String message) {
+    public final Log debug(String message) {
         if (logger.isDebugEnabled()) {
             logger.debug(message);
         }
@@ -297,7 +297,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log debug(String format, Object parameter1) {
+    public final Log debug(String format, Object parameter1) {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(format == null ? "Null format" : format,
                                        parameter1));
@@ -313,7 +313,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log debug(String format, Object parameter1, Object parameter2) {
+    public final Log debug(String format, Object parameter1, Object parameter2) {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2));
@@ -329,7 +329,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log debug(String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log debug(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3));
@@ -342,7 +342,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log debug(String format, Object... parameters) {
+    public final Log debug(String format, Object... parameters) {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(format == null ? "Null format" : format,
                                        parameters));
@@ -358,7 +358,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #debug(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log debug(String message, Throwable throwable) {
+    public final Log debug(String message, Throwable throwable) {
         if (logger.isDebugEnabled()) {
             logger.debug(message, throwable);
         }
@@ -373,7 +373,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #debug(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log debug(Throwable throwable, String message) {
+    public final Log debug(Throwable throwable, String message) {
         if (logger.isDebugEnabled()) {
             logger.debug(message, throwable);
         }
@@ -388,7 +388,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log debug(Throwable throwable, String format, Object parameter1) {
+    public final Log debug(Throwable throwable, String format, Object parameter1) {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(format == null ? "Null format" : format,
                                        parameter1),
@@ -405,7 +405,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log debug(Throwable throwable, String format, Object parameter1, Object parameter2) {
+    public final Log debug(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2),
@@ -422,7 +422,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log debug(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log debug(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3),
@@ -436,7 +436,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log debug(Throwable throwable, String format, Object... parameters) {
+    public final Log debug(Throwable throwable, String format, Object... parameters) {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(format == null ? "Null format" : format,
                                        parameters),
@@ -455,7 +455,7 @@ public class Log {
      * @deprecated Because you shouldn't use it!
      */
     @Deprecated
-    public boolean isInfoEnabled() {
+    public final boolean isInfoEnabled() {
         return logger.isInfoEnabled();
     }
 
@@ -464,7 +464,7 @@ public class Log {
     /**
      * Log a simple message at <b>INFO</b> level.
      */
-    public Log info(String message) {
+    public final Log info(String message) {
         if (logger.isInfoEnabled()) {
             logger.info(message);
         }
@@ -479,7 +479,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log info(String format, Object parameter1) {
+    public final Log info(String format, Object parameter1) {
         if (logger.isInfoEnabled()) {
             logger.info(String.format(format == null ? "Null format" : format,
                                        parameter1));
@@ -495,7 +495,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log info(String format, Object parameter1, Object parameter2) {
+    public final Log info(String format, Object parameter1, Object parameter2) {
         if (logger.isInfoEnabled()) {
             logger.info(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2));
@@ -511,7 +511,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log info(String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log info(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isInfoEnabled()) {
             logger.info(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3));
@@ -524,7 +524,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log info(String format, Object... parameters) {
+    public final Log info(String format, Object... parameters) {
         if (logger.isInfoEnabled()) {
             logger.info(String.format(format == null ? "Null format" : format,
                                        parameters));
@@ -540,7 +540,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #info(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log info(String message, Throwable throwable) {
+    public final Log info(String message, Throwable throwable) {
         if (logger.isInfoEnabled()) {
             logger.info(message, throwable);
         }
@@ -555,7 +555,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #info(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log info(Throwable throwable, String message) {
+    public final Log info(Throwable throwable, String message) {
         if (logger.isInfoEnabled()) {
             logger.info(message, throwable);
         }
@@ -570,7 +570,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log info(Throwable throwable, String format, Object parameter1) {
+    public final Log info(Throwable throwable, String format, Object parameter1) {
         if (logger.isInfoEnabled()) {
             logger.info(String.format(format == null ? "Null format" : format,
                                        parameter1),
@@ -587,7 +587,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log info(Throwable throwable, String format, Object parameter1, Object parameter2) {
+    public final Log info(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isInfoEnabled()) {
             logger.info(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2),
@@ -604,7 +604,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log info(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log info(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isInfoEnabled()) {
             logger.info(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3),
@@ -618,7 +618,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log info(Throwable throwable, String format, Object... parameters) {
+    public final Log info(Throwable throwable, String format, Object... parameters) {
         if (logger.isInfoEnabled()) {
             logger.info(String.format(format == null ? "Null format" : format,
                                        parameters),
@@ -637,7 +637,7 @@ public class Log {
      * @deprecated Because you shouldn't use it!
      */
     @Deprecated
-    public boolean isWarnEnabled() {
+    public final boolean isWarnEnabled() {
         return logger.isWarnEnabled();
     }
 
@@ -646,7 +646,7 @@ public class Log {
     /**
      * Log a simple message at <b>WARN</b> level.
      */
-    public Log warn(String message) {
+    public final Log warn(String message) {
         if (logger.isWarnEnabled()) {
             logger.warn(message);
         }
@@ -661,7 +661,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log warn(String format, Object parameter1) {
+    public final Log warn(String format, Object parameter1) {
         if (logger.isWarnEnabled()) {
             logger.warn(String.format(format == null ? "Null format" : format,
                                        parameter1));
@@ -677,7 +677,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log warn(String format, Object parameter1, Object parameter2) {
+    public final Log warn(String format, Object parameter1, Object parameter2) {
         if (logger.isWarnEnabled()) {
             logger.warn(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2));
@@ -693,7 +693,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log warn(String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log warn(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isWarnEnabled()) {
             logger.warn(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3));
@@ -706,7 +706,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log warn(String format, Object... parameters) {
+    public final Log warn(String format, Object... parameters) {
         if (logger.isWarnEnabled()) {
             logger.warn(String.format(format == null ? "Null format" : format,
                                        parameters));
@@ -722,7 +722,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #warn(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log warn(String message, Throwable throwable) {
+    public final Log warn(String message, Throwable throwable) {
         if (logger.isWarnEnabled()) {
             logger.warn(message, throwable);
         }
@@ -737,7 +737,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #warn(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log warn(Throwable throwable, String message) {
+    public final Log warn(Throwable throwable, String message) {
         if (logger.isWarnEnabled()) {
             logger.warn(message, throwable);
         }
@@ -752,7 +752,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log warn(Throwable throwable, String format, Object parameter1) {
+    public final Log warn(Throwable throwable, String format, Object parameter1) {
         if (logger.isWarnEnabled()) {
             logger.warn(String.format(format == null ? "Null format" : format,
                                        parameter1),
@@ -769,7 +769,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log warn(Throwable throwable, String format, Object parameter1, Object parameter2) {
+    public final Log warn(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isWarnEnabled()) {
             logger.warn(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2),
@@ -786,7 +786,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log warn(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log warn(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isWarnEnabled()) {
             logger.warn(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3),
@@ -800,7 +800,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log warn(Throwable throwable, String format, Object... parameters) {
+    public final Log warn(Throwable throwable, String format, Object... parameters) {
         if (logger.isWarnEnabled()) {
             logger.warn(String.format(format == null ? "Null format" : format,
                                        parameters),
@@ -819,7 +819,7 @@ public class Log {
      * @deprecated Because you shouldn't use it!
      */
     @Deprecated
-    public boolean isErrorEnabled() {
+    public final boolean isErrorEnabled() {
         return logger.isErrorEnabled();
     }
 
@@ -828,7 +828,7 @@ public class Log {
     /**
      * Log a simple message at <b>ERROR</b> level.
      */
-    public Log error(String message) {
+    public final Log error(String message) {
         if (logger.isErrorEnabled()) {
             logger.error(message);
         }
@@ -843,7 +843,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log error(String format, Object parameter1) {
+    public final Log error(String format, Object parameter1) {
         if (logger.isErrorEnabled()) {
             logger.error(String.format(format == null ? "Null format" : format,
                                        parameter1));
@@ -859,7 +859,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log error(String format, Object parameter1, Object parameter2) {
+    public final Log error(String format, Object parameter1, Object parameter2) {
         if (logger.isErrorEnabled()) {
             logger.error(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2));
@@ -875,7 +875,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log error(String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log error(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isErrorEnabled()) {
             logger.error(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3));
@@ -888,7 +888,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log error(String format, Object... parameters) {
+    public final Log error(String format, Object... parameters) {
         if (logger.isErrorEnabled()) {
             logger.error(String.format(format == null ? "Null format" : format,
                                        parameters));
@@ -904,7 +904,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #error(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log error(String message, Throwable throwable) {
+    public final Log error(String message, Throwable throwable) {
         if (logger.isErrorEnabled()) {
             logger.error(message, throwable);
         }
@@ -919,7 +919,7 @@ public class Log {
      * <p><b>NOTE:</b> This is equivalent to {@link #error(Throwable, String)}
      * but is included with the parameters reversed because of "habit".</p>
      */
-    public Log error(Throwable throwable, String message) {
+    public final Log error(Throwable throwable, String message) {
         if (logger.isErrorEnabled()) {
             logger.error(message, throwable);
         }
@@ -934,7 +934,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log error(Throwable throwable, String format, Object parameter1) {
+    public final Log error(Throwable throwable, String format, Object parameter1) {
         if (logger.isErrorEnabled()) {
             logger.error(String.format(format == null ? "Null format" : format,
                                        parameter1),
@@ -951,7 +951,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log error(Throwable throwable, String format, Object parameter1, Object parameter2) {
+    public final Log error(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isErrorEnabled()) {
             logger.error(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2),
@@ -968,7 +968,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log error(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
+    public final Log error(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isErrorEnabled()) {
             logger.error(String.format(format == null ? "Null format" : format,
                                        parameter1, parameter2, parameter3),
@@ -982,7 +982,7 @@ public class Log {
      *
      * @see String#format(String, Object...)
      */
-    public Log error(Throwable throwable, String format, Object... parameters) {
+    public final Log error(Throwable throwable, String format, Object... parameters) {
         if (logger.isErrorEnabled()) {
             logger.error(String.format(format == null ? "Null format" : format,
                                        parameters),
