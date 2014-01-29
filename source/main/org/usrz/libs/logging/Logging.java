@@ -32,6 +32,12 @@ public final class Logging {
         throw new IllegalStateException("Do not construct");
     }
 
+    /**
+     * Conquer all logging subsystems, and rule their world with an iron fist!
+     *
+     * <p>This method, ironically enough, will fail badly if the world can not be
+     *  conquered. Call this <b>first</b> before you do <i>anything</i> else.</p>
+     */
     public static void init() {
         if (initialized) return;
 
