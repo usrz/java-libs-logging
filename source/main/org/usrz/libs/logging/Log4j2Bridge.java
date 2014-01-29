@@ -28,10 +28,14 @@ import org.apache.logging.log4j.spi.LoggerContextFactory;
  *
  * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
  */
-public class Log4j2Bridge
+public final class Log4j2Bridge
 implements LoggerContextFactory, LoggerContext {
 
     static Log4j2Adapter LAST_ENTRY;
+
+    public Log4j2Bridge() {
+        /* Do nothing */
+    }
 
     /* ====================================================================== */
 

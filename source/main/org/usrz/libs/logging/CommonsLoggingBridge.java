@@ -23,7 +23,11 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
  */
-public class CommonsLoggingBridge extends LogFactory {
+public final class CommonsLoggingBridge extends LogFactory {
+
+    public CommonsLoggingBridge() {
+        /* Nothing to do */
+    }
 
     @Override @SuppressWarnings("rawtypes")
     public CommonsLoggingAdapter getInstance(Class clazz) {

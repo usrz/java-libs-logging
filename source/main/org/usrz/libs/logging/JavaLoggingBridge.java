@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  *
  * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
  */
-public class JavaLoggingBridge extends LogManager {
+public final class JavaLoggingBridge extends LogManager {
 
     public JavaLoggingBridge() {
         super();

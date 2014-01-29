@@ -27,11 +27,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
  */
-public class Log4j1Adapter extends Logger {
+public final class Log4j1Adapter extends Logger {
 
     private final org.slf4j.Logger logger;
 
-    public Log4j1Adapter(Log4j1Bridge bridge, String name) {
+    protected Log4j1Adapter(Log4j1Bridge bridge, String name) {
         super(name);
         logger = LoggerFactory.getLogger(name);
         repository = bridge;

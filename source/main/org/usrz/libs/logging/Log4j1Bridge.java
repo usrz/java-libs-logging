@@ -35,9 +35,9 @@ import org.apache.log4j.spi.RepositorySelector;
  *
  * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
  */
-public class Log4j1Bridge implements RepositorySelector, LoggerRepository {
+public final class Log4j1Bridge implements RepositorySelector, LoggerRepository {
 
-    public Log4j1Bridge() {
+   public Log4j1Bridge() {
         /* Do nothing */
     }
 
