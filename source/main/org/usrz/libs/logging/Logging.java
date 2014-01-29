@@ -15,10 +15,22 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
-
+/**
+ * A class initializing the logging environment.
+ *
+ * <p>Simply call the {@link #init()} method at the first line of your
+ * <code>main(String[] args)</code> method, or just add a line like
+ * <code>static { Logging.init(); }</code> on top of your primary class.
+ *
+ * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
+ */
 public final class Logging {
 
     private static boolean initialized = false;
+
+    private Logging() {
+        throw new IllegalStateException("Do not construct");
+    }
 
     public static void init() {
         if (initialized) return;
