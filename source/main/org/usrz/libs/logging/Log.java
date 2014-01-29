@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
  * Our own wrapper around all various logging packages (this decouples our
  * code from whatever "next" better API will come up in the next 5 minutes).
  *
+ * <p>To use simply slap <code>private static final Log log = new Log()</code>
+ * at the top of your class file and stop worring about it.</p>
+ *
  * <p>As with all other packages, our log levels are the standard ones:</p>
  *
  * <ul>
@@ -31,11 +34,44 @@ import org.slf4j.LoggerFactory;
  *   <li><b>DEBUG</b>: this might help, somehow, somewhere, when code looks good, but bugs are found.</li>
  *   <li><b>TRACE</b>: you're an annoying, little, curious child, aren't you?</li>
  * </ul>
+ *
+ * <p>If I may complain a bit, <i>SLF4J</i> does not provide the <b>FATAL</b>
+ * level which I find pretty darn useful, but fuck-it, for now this'll do.</p>
+ *
+ * <p>Oh, and in case you wondered why I wrote this, rather than using SLF4J's
+ * own {@link Logger} interface, here are few reasons I just came up with:</p>
+ *
+ * <ul>
+ *   <li>You can't format a message <i>and</i> specify a {@link Throwable}...
+ *       Dunno, maybe it checks if the last parameter is one, and the format
+ *       has only N-1 formats... TL;DR, I want shit to be explicit!</li>
+ *   <li>What's the deal with <code>{}</code>??? I mean, are we all retards or
+ *       can't we just use that nice syntax we use since the late 1970s and
+ *       wondefully explained in Brian Kernighan's and Dennis Ritchie's
+ *       <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">The
+ *       C Programming Language</a>? {@link String#format(String, Object...)}
+ *       for the win.</li>
+ *   <li>We are in 201X (with X >= 4)... Still factory methods to create
+ *       instances? The <code>new</code> keyword rules, and if the underlying
+ *       stuff is heavy to construct, just wrap it, it's cheap.</li>
+ *   <li>I <code>WANT</code> a default <em>instantiator</em> somehow... It's
+ *       great that I can construct a {@link Logger} with either a
+ *       {@link String} name or a {@link Class} instance, and if those are
+ *       <b>null</b> somehow you're going to do magic. <b>NO MAGIC</b>: tell
+ *       me what is going to happen straight away, under my fingertips in my
+ *       favorite IDE.</li>
+ * </ul>
+ *
+ * <p>Logging sucks: a trivial problem bloated by years of stupid flamewars.</p>
+ *
  * <p><b><i>NOTE:</i> This is NOT a logging API, you are NOT allowed to use it
  * in your code, and anyone who relies on this (besides me) should be beaten
  * with a friggin' clue-stick. Go write your own wrapper if you don't like the
  * style of API that SLF4J provides, but DO NOT use this (yes, you are allowed
  * to copy and paste it in your own package).</b></p>
+ *
+ * <p><i>PS:</i> This class will statically call {@link Logging#init()}
+ * whether you want it or not!</p>
  *
  * @author <a href="mailto:pier@usrz.com">Pier Fumagalli</a>
  */
@@ -43,20 +79,36 @@ public final  class Log {
 
     static { Logging.init(); }
 
+    /**
+     * The <i>ROOT</i> logger (or the logger with no name, the "unnamed").
+     *
+     * @see <a href="http://bit.ly/1e7NM1t">The Unnamed</a>
+     */
     public final static Log ROOT_LOG = new Log(Logger.ROOT_LOGGER_NAME);
 
     private final Logger logger;
 
+    /**
+     * Create a new {@link Log} using the caller class name as the name.
+     */
     public Log() {
         logger = LoggerFactory.getLogger(new Throwable().getStackTrace()[1].getClassName());
     }
 
+    /**
+     * Create a new {@link Log}; if the specified {@link Class} is
+     * <b>null</b> the caller class name will be used as a name.</p>
+     */
     public Log(Class<?> clazz) {
         new Throwable().printStackTrace();
         logger = LoggerFactory.getLogger(clazz != null ? clazz.getName() :
                                          new Throwable().getStackTrace()[1].getClassName());
     }
 
+    /**
+     * Create a new {@link Log}: if the specified {@link String} is
+     * <b>null</b> the caller class name will be used as a name.</p>
+     */
     public Log(String name) {
         logger = LoggerFactory.getLogger(name != null ? name :
                                          new Throwable().getStackTrace()[1].getClassName());
