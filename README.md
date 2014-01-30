@@ -36,5 +36,5 @@ You're free to write your own taking inspiration from it, though.
 License
 -------
 
-This is all licensed under the [Apache Software License version 2][LICENSE.md],
+This is all licensed under the [Apache Software License version 2](LICENSE.md),
 with the restriction of being unable to use the `Log` class in your code.
