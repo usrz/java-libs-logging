@@ -27,10 +27,11 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
+import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class JavaLoggingTest {
+public class JavaLoggingTest extends AbstractTest {
 
     static { Logging.init(); }
 

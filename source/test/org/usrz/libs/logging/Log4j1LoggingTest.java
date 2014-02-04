@@ -20,10 +20,11 @@ import java.util.Random;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
+import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class Log4j1LoggingTest {
+public class Log4j1LoggingTest extends AbstractTest {
 
     static { Logging.init(); }
 

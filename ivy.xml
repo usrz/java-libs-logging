@@ -21,6 +21,7 @@
     <dependency org="org.slf4j" name="slf4j-api" rev="latest.release" conf="default"/>
     <dependency org="ch.qos" name="logback-classic" rev="latest.release" conf="default"/>
 
+    <dependency org="org.usrz.libs" name="testing" rev="latest.release" conf="test-&gt;default"/>
     <dependency org="org.testng" name="testng" rev="latest.release" conf="test-&gt;default"/>
   </dependencies>
 

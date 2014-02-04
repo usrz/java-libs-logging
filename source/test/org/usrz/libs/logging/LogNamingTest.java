@@ -15,11 +15,10 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
-import static org.testng.Assert.assertEquals;
-
 import org.testng.annotations.Test;
+import org.usrz.libs.testing.AbstractTest;
 
-public class LogNamingTest {
+public class LogNamingTest extends AbstractTest {
 
     static { Logging.init(); }
 

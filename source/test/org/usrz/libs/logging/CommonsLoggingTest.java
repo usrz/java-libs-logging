@@ -20,10 +20,11 @@ import java.util.Random;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.Test;
+import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class CommonsLoggingTest {
+public class CommonsLoggingTest extends AbstractTest {
 
     static { Logging.init(); }
 

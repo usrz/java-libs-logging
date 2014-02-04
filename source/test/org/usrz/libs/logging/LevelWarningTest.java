@@ -15,14 +15,12 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import org.apache.log4j.Priority;
 import org.testng.annotations.Test;
+import org.usrz.libs.testing.AbstractTest;
 
 
-public class LevelWarningTest {
+public class LevelWarningTest extends AbstractTest {
 
     static { Logging.init(); }
 

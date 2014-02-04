@@ -16,10 +16,11 @@
 package org.usrz.libs.logging;
 
 import org.testng.annotations.Test;
+import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class LogMethodsTest {
+public class LogMethodsTest extends AbstractTest {
 
     static { Logging.init(); }
 
