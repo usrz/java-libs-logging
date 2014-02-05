@@ -15,6 +15,13 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
+import static java.lang.Integer.MIN_VALUE;
+import static org.slf4j.spi.LocationAwareLogger.DEBUG_INT;
+import static org.slf4j.spi.LocationAwareLogger.ERROR_INT;
+import static org.slf4j.spi.LocationAwareLogger.INFO_INT;
+import static org.slf4j.spi.LocationAwareLogger.TRACE_INT;
+import static org.slf4j.spi.LocationAwareLogger.WARN_INT;
+
 import java.util.logging.Filter;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
@@ -23,6 +30,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * A logging adapter (or in other words a <i>logger<i> implementation) for
@@ -35,15 +43,15 @@ public final class JavaLoggingAdapter extends Logger {
     private static final int OFF     = Level.OFF.intValue();
     private static final int SEVERE  = Level.SEVERE.intValue();
     private static final int WARNING = Level.WARNING.intValue();
-//  private static final int INFO    = Level.INFO.intValue();
     private static final int CONFIG  = Level.CONFIG.intValue();
     private static final int FINE    = Level.FINE.intValue();
-//  private static final int FINER   = Level.FINER.intValue();
     private static final int FINEST  = Level.FINEST.intValue();
+
+    private static final String FQCN = Logger.class.getName();
 
     /* ====================================================================== */
 
-    private final org.slf4j.Logger logger;
+    private final LocationAwareLogger logger;
     private final int levelValue;
 
     private final Formatter formatter = new Formatter() {
@@ -59,7 +67,7 @@ public final class JavaLoggingAdapter extends Logger {
 
     protected JavaLoggingAdapter(String name) {
         super(name, null);
-        logger = LoggerFactory.getLogger(name);
+        logger = (LocationAwareLogger) LoggerFactory.getLogger(name);
 
         super.setLevel(logger.isTraceEnabled() ? Level.FINEST :
                        logger.isDebugEnabled() ? Level.FINE :
@@ -67,6 +75,7 @@ public final class JavaLoggingAdapter extends Logger {
                        logger.isWarnEnabled()  ? Level.WARNING :
                        logger.isErrorEnabled() ? Level.SEVERE :
                        Level.OFF);
+
         levelValue = getLevel().intValue();
     }
 
@@ -82,30 +91,19 @@ public final class JavaLoggingAdapter extends Logger {
             return;
         }
 
-        Logger logger = this;
-        while (logger != null) {
-            final int level = record.getLevel().intValue();
+        final int level = record.getLevel().intValue();
+
+        final int slf4jLevel = level >= SEVERE  ? logger.isErrorEnabled() ? ERROR_INT : MIN_VALUE :
+                               level >= WARNING ? logger.isWarnEnabled()  ? WARN_INT  : MIN_VALUE :
+                               level >= CONFIG  ? logger.isInfoEnabled()  ? INFO_INT  : MIN_VALUE :
+                               level >= FINE    ? logger.isDebugEnabled() ? DEBUG_INT : MIN_VALUE :
+                               level >= FINEST  ? logger.isTraceEnabled() ? TRACE_INT : MIN_VALUE :
+                               MIN_VALUE;
+
+        if (slf4jLevel != MIN_VALUE) {
             final String message = formatter.formatMessage(record);
             final Throwable throwable = record.getThrown();
-
-            if        (level >= SEVERE) {
-                if (throwable == null) this.logger.error(message);
-                else                   this.logger.error(message, throwable);
-            } else if (level >= WARNING) {
-                if (throwable == null) this.logger.warn(message);
-                else                   this.logger.warn(message, throwable);
-            } else if (level >= CONFIG) {
-                if (throwable == null) this.logger.info(message);
-                else                   this.logger.info(message, throwable);
-            } else if (level >= FINE) {
-                if (throwable == null) this.logger.debug(message);
-                else                   this.logger.debug(message, throwable);
-            } else if (level >= FINEST) {
-                if (throwable == null) this.logger.trace(message);
-                else                   this.logger.trace(message, throwable);
-            }
-
-            logger = logger.getParent();
+            logger.log(null, FQCN, slf4jLevel, message, null, throwable);
         }
     }
 
