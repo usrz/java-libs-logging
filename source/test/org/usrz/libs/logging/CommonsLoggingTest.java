@@ -40,7 +40,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.TRACE)
                                        .assertMessage(message)
-                                       .assertThrowable(null);
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -53,7 +54,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.TRACE)
                                        .assertMessage(message)
-                                       .assertThrowable(throwable);
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -65,7 +67,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.DEBUG)
                                        .assertMessage(message)
-                                       .assertThrowable(null);
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -78,7 +81,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.DEBUG)
                                        .assertMessage(message)
-                                       .assertThrowable(throwable);
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -90,7 +94,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.INFO)
                                        .assertMessage(message)
-                                       .assertThrowable(null);
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -103,7 +108,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.INFO)
                                        .assertMessage(message)
-                                       .assertThrowable(throwable);
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -115,7 +121,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.WARN)
                                        .assertMessage(message)
-                                       .assertThrowable(null);
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -128,7 +135,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.WARN)
                                        .assertMessage(message)
-                                       .assertThrowable(throwable);
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -140,7 +148,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.ERROR)
                                        .assertMessage(message)
-                                       .assertThrowable(null);
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -153,7 +162,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.ERROR)
                                        .assertMessage(message)
-                                       .assertThrowable(throwable);
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -165,7 +175,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.ERROR)
                                        .assertMessage(message)
-                                       .assertThrowable(null);
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -178,7 +189,8 @@ public class CommonsLoggingTest extends AbstractTest {
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
                                        .assertLevel(Level.ERROR)
                                        .assertMessage(message)
-                                       .assertThrowable(throwable);
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
 }

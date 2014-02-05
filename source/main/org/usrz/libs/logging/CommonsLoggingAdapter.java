@@ -15,8 +15,14 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
+import static org.slf4j.spi.LocationAwareLogger.DEBUG_INT;
+import static org.slf4j.spi.LocationAwareLogger.ERROR_INT;
+import static org.slf4j.spi.LocationAwareLogger.INFO_INT;
+import static org.slf4j.spi.LocationAwareLogger.TRACE_INT;
+import static org.slf4j.spi.LocationAwareLogger.WARN_INT;
+
 import org.apache.commons.logging.Log;
-import org.slf4j.Logger;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * A logging adapter (or in other words a <i>logger<i> implementation) for
@@ -26,10 +32,12 @@ import org.slf4j.Logger;
  */
 public final class CommonsLoggingAdapter implements Log {
 
-    private final Logger logger;
+    private static final String FQCN = CommonsLoggingAdapter.class.getName();
+
+    private final LocationAwareLogger logger;
 
     protected CommonsLoggingAdapter(String className) {
-        logger = org.slf4j.LoggerFactory.getLogger(className);
+        logger = (LocationAwareLogger) org.slf4j.LoggerFactory.getLogger(className);
     }
 
     /* ====================================================================== */
@@ -69,11 +77,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void trace(Object message) {
         if (logger.isTraceEnabled()) {
-            if (message == null) logger.trace("Null message");
+            if (message == null) logger.log(null, FQCN, TRACE_INT, "Null message", null, null);
             else try {
-                logger.trace((String) message);
+                logger.log(null, FQCN, TRACE_INT, (String) message, null, null);
             } catch (ClassCastException exception) {
-                logger.trace("{}", message);
+                logger.log(null, FQCN, TRACE_INT, "{}", new Object[] { message }, null);
             }
         }
     }
@@ -81,11 +89,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void trace(Object message, Throwable throwable) {
         if (logger.isTraceEnabled()) {
-            if (message == null) logger.trace("Null message", throwable);
+            if (message == null) logger.log(null, FQCN, TRACE_INT, "Null message", null, throwable);
             else try {
-                logger.trace((String) message, throwable);
+                logger.log(null, FQCN, TRACE_INT, (String) message, null, throwable);
             } catch (ClassCastException exception) {
-                logger.trace("{}", message, throwable);
+                logger.log(null, FQCN, TRACE_INT, "{}", new Object[] { message }, throwable);
             }
         }
     }
@@ -93,11 +101,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void debug(Object message) {
         if (logger.isDebugEnabled()) {
-            if (message == null) logger.debug("Null message");
+            if (message == null) logger.log(null, FQCN, DEBUG_INT, "Null message", null, null);
             else try {
-                logger.debug((String) message);
+                logger.log(null, FQCN, DEBUG_INT, (String) message, null, null);
             } catch (ClassCastException exception) {
-                logger.debug("{}", message);
+                logger.log(null, FQCN, DEBUG_INT, "{}", new Object[] { message }, null);
             }
         }
     }
@@ -105,11 +113,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void debug(Object message, Throwable throwable) {
         if (logger.isDebugEnabled()) {
-            if (message == null) logger.debug("Null message", throwable);
+            if (message == null) logger.log(null, FQCN, DEBUG_INT, "Null message", null, throwable);
             else try {
-                logger.debug((String) message, throwable);
+                logger.log(null, FQCN, DEBUG_INT, (String) message, null, throwable);
             } catch (ClassCastException exception) {
-                logger.debug("{}", message, throwable);
+                logger.log(null, FQCN, DEBUG_INT, "{}", new Object[] { message }, throwable);
             }
         }
     }
@@ -117,11 +125,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void info(Object message) {
         if (logger.isInfoEnabled()) {
-            if (message == null) logger.info("Null message");
+            if (message == null) logger.log(null, FQCN, INFO_INT, "Null message", null, null);
             else try {
-                logger.info((String) message);
+                logger.log(null, FQCN, INFO_INT, (String) message, null, null);
             } catch (ClassCastException exception) {
-                logger.info("{}", message);
+                logger.log(null, FQCN, INFO_INT, "{}", new Object[] { message }, null);
             }
         }
     }
@@ -129,11 +137,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void info(Object message, Throwable throwable) {
         if (logger.isInfoEnabled()) {
-            if (message == null) logger.info("Null message", throwable);
+            if (message == null) logger.log(null, FQCN, INFO_INT, "Null message", null, throwable);
             else try {
-                logger.info((String) message, throwable);
+                logger.log(null, FQCN, INFO_INT, (String) message, null, throwable);
             } catch (ClassCastException exception) {
-                logger.info("{}", message, throwable);
+                logger.log(null, FQCN, INFO_INT, "{}", new Object[] { message }, throwable);
             }
         }
     }
@@ -141,11 +149,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void warn(Object message) {
         if (logger.isWarnEnabled()) {
-            if (message == null) logger.warn("Null message");
+            if (message == null) logger.log(null, FQCN, WARN_INT, "Null message", null, null);
             else try {
-                logger.warn((String) message);
+                logger.log(null, FQCN, WARN_INT, (String) message, null, null);
             } catch (ClassCastException exception) {
-                logger.warn("{}", message);
+                logger.log(null, FQCN, WARN_INT, "{}", new Object[] { message }, null);
             }
         }
     }
@@ -153,11 +161,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void warn(Object message, Throwable throwable) {
         if (logger.isWarnEnabled()) {
-            if (message == null) logger.warn("Null message", throwable);
+            if (message == null) logger.log(null, FQCN, WARN_INT, "Null message", null, throwable);
             else try {
-                logger.warn((String) message, throwable);
+                logger.log(null, FQCN, WARN_INT, (String) message, null, throwable);
             } catch (ClassCastException exception) {
-                logger.warn("{}", message, throwable);
+                logger.log(null, FQCN, WARN_INT, "{}", new Object[] { message }, throwable);
             }
         }
     }
@@ -165,11 +173,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void error(Object message) {
         if (logger.isErrorEnabled()) {
-            if (message == null) logger.error("Null message");
+            if (message == null) logger.log(null, FQCN, ERROR_INT, "Null message", null, null);
             else try {
-                logger.error((String) message);
+                logger.log(null, FQCN, ERROR_INT, (String) message, null, null);
             } catch (ClassCastException exception) {
-                logger.error("{}", message);
+                logger.log(null, FQCN, ERROR_INT, "{}", new Object[] { message }, null);
             }
         }
     }
@@ -177,11 +185,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void error(Object message, Throwable throwable) {
         if (logger.isErrorEnabled()) {
-            if (message == null) logger.error("Null message", throwable);
+            if (message == null) logger.log(null, FQCN, ERROR_INT, "Null message", null, throwable);
             else try {
-                logger.error((String) message, throwable);
+                logger.log(null, FQCN, ERROR_INT, (String) message, null, throwable);
             } catch (ClassCastException exception) {
-                logger.error("{}", message, throwable);
+                logger.log(null, FQCN, ERROR_INT, "{}", new Object[] { message }, throwable);
             }
         }
     }
@@ -189,11 +197,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void fatal(Object message) {
         if (logger.isErrorEnabled()) {
-            if (message == null) logger.error("Null message");
+            if (message == null) logger.log(null, FQCN, ERROR_INT, "Null message", null, null);
             else try {
-                logger.error((String) message);
+                logger.log(null, FQCN, ERROR_INT, (String) message, null, null);
             } catch (ClassCastException exception) {
-                logger.error("{}", message);
+                logger.log(null, FQCN, ERROR_INT, "{}", new Object[] { message }, null);
             }
         }
     }
@@ -201,11 +209,11 @@ public final class CommonsLoggingAdapter implements Log {
     @Override
     public void fatal(Object message, Throwable throwable) {
         if (logger.isErrorEnabled()) {
-            if (message == null) logger.error("Null message", throwable);
+            if (message == null) logger.log(null, FQCN, ERROR_INT, "Null message", null, throwable);
             else try {
-                logger.error((String) message, throwable);
+                logger.log(null, FQCN, ERROR_INT, (String) message, null, throwable);
             } catch (ClassCastException exception) {
-                logger.error("{}", message, throwable);
+                logger.log(null, FQCN, ERROR_INT, "{}", new Object[] { message }, throwable);
             }
         }
     }
