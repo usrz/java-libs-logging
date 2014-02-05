@@ -15,14 +15,27 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
+import static java.lang.Integer.MIN_VALUE;
+import static org.apache.logging.log4j.Level.DEBUG;
+import static org.apache.logging.log4j.Level.ERROR;
+import static org.apache.logging.log4j.Level.FATAL;
+import static org.apache.logging.log4j.Level.INFO;
+import static org.apache.logging.log4j.Level.TRACE;
+import static org.apache.logging.log4j.Level.WARN;
+import static org.slf4j.spi.LocationAwareLogger.DEBUG_INT;
+import static org.slf4j.spi.LocationAwareLogger.ERROR_INT;
+import static org.slf4j.spi.LocationAwareLogger.INFO_INT;
+import static org.slf4j.spi.LocationAwareLogger.TRACE_INT;
+import static org.slf4j.spi.LocationAwareLogger.WARN_INT;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.message.MessageFactory;
 import org.apache.logging.log4j.spi.AbstractLogger;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MarkerFactory;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * A logging adapter (or in other words a <i>logger<i> implementation) for
@@ -32,33 +45,36 @@ import org.slf4j.MarkerFactory;
  */
 public final class Log4j2Adapter extends AbstractLogger {
 
-    private final Logger logger;
+    private final LocationAwareLogger logger;
 
     protected Log4j2Adapter(String name) {
         super(name);
-        logger = LoggerFactory.getLogger(name);
+        logger = (LocationAwareLogger) LoggerFactory.getLogger(name);
     }
 
     protected Log4j2Adapter(String name, MessageFactory factory) {
         super(name, factory);
-        logger = LoggerFactory.getLogger(name);
+        logger = (LocationAwareLogger) LoggerFactory.getLogger(name);
     }
 
     @Override
-    public void log(Marker marker, String fqcn, Level level, Message data, Throwable t) {
+    public void log(Marker marker, String fqcn, Level level, Message data, Throwable throwable) {
         if (level == null) return;
-        if (isEnabled(level, marker)) {
-            final String message = data.getFormattedMessage();
-            switch (level) {
-                case TRACE: logger.trace(message, t); break;
-                case DEBUG: logger.debug(message, t); break;
-                case INFO:  logger.info (message, t); break;
-                case WARN:  logger.warn (message, t); break;
-                case ERROR: logger.error(message, t); break;
-                case FATAL: logger.error(message, t); break;
-                default: return;
-            }
-        }
+
+        final org.slf4j.Marker slf4jMarker = convert(marker);
+
+        final int slf4jLevel = level.equals(FATAL) ? logger.isErrorEnabled(slf4jMarker) ? ERROR_INT : MIN_VALUE :
+                               level.equals(ERROR) ? logger.isErrorEnabled(slf4jMarker) ? ERROR_INT : MIN_VALUE :
+                               level.equals(WARN)  ? logger.isWarnEnabled(slf4jMarker)  ? WARN_INT  : MIN_VALUE :
+                               level.equals(INFO)  ? logger.isInfoEnabled(slf4jMarker)  ? INFO_INT  : MIN_VALUE :
+                               level.equals(DEBUG) ? logger.isDebugEnabled(slf4jMarker) ? DEBUG_INT : MIN_VALUE :
+                               level.equals(TRACE) ? logger.isTraceEnabled(slf4jMarker) ? TRACE_INT : MIN_VALUE :
+                               MIN_VALUE;
+
+        if (slf4jLevel == MIN_VALUE) return;
+
+        final String message = data.getFormattedMessage();
+        logger.log(convert(marker), fqcn, slf4jLevel, message, null, throwable);
     }
 
     @Override
