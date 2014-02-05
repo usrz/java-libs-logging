@@ -15,8 +15,15 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
+import static org.slf4j.spi.LocationAwareLogger.DEBUG_INT;
+import static org.slf4j.spi.LocationAwareLogger.ERROR_INT;
+import static org.slf4j.spi.LocationAwareLogger.INFO_INT;
+import static org.slf4j.spi.LocationAwareLogger.TRACE_INT;
+import static org.slf4j.spi.LocationAwareLogger.WARN_INT;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * Our own wrapper around all various logging packages (this decouples our
@@ -86,13 +93,16 @@ public final  class Log {
      */
     public final static Log ROOT_LOG = new Log(Logger.ROOT_LOGGER_NAME);
 
-    private final Logger logger;
+    /* The fully qualified class name of this class */
+    private static final String FQCN = Log.class.getName();
+    /* Our "location aware" logger */
+    private final LocationAwareLogger logger;
 
     /**
      * Create a new {@link Log} using the caller class name as the name.
      */
     public Log() {
-        logger = LoggerFactory.getLogger(new Throwable().getStackTrace()[1].getClassName());
+        this(LoggerFactory.getLogger(new Throwable().getStackTrace()[1].getClassName()));
     }
 
     /**
@@ -100,9 +110,8 @@ public final  class Log {
      * <b>null</b> the caller class name will be used as a name.</p>
      */
     public Log(Class<?> clazz) {
-        new Throwable().printStackTrace();
-        logger = LoggerFactory.getLogger(clazz != null ? clazz.getName() :
-                                         new Throwable().getStackTrace()[1].getClassName());
+        this(LoggerFactory.getLogger(clazz != null ? clazz.getName() :
+                                     new Throwable().getStackTrace()[1].getClassName()));
     }
 
     /**
@@ -110,8 +119,14 @@ public final  class Log {
      * <b>null</b> the caller class name will be used as a name.</p>
      */
     public Log(String name) {
-        logger = LoggerFactory.getLogger(name != null ? name :
-                                         new Throwable().getStackTrace()[1].getClassName());
+        this(LoggerFactory.getLogger(name != null ? name :
+                                     new Throwable().getStackTrace()[1].getClassName()));
+    }
+
+    /* ====================================================================== */
+
+    private Log(Logger logger) {
+        this.logger = (LocationAwareLogger) logger;
     }
 
     /* ====================================================================== */
@@ -154,7 +169,7 @@ public final  class Log {
      */
     public final Log trace(String message) {
         if (logger.isTraceEnabled()) {
-            logger.trace(message);
+            logger.log(null, FQCN, TRACE_INT, message, null, null);
         }
         return this;
     }
@@ -169,8 +184,8 @@ public final  class Log {
      */
     public final Log trace(String format, Object parameter1) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(format == null ? "Null format" : format,
-                                       parameter1));
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, TRACE_INT, message, null, null);
         }
         return this;
     }
@@ -185,8 +200,8 @@ public final  class Log {
      */
     public final Log trace(String format, Object parameter1, Object parameter2) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2));
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, TRACE_INT, message, null, null);
         }
         return this;
     }
@@ -201,8 +216,8 @@ public final  class Log {
      */
     public final Log trace(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3));
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, TRACE_INT, message, null, null);
         }
         return this;
     }
@@ -214,8 +229,8 @@ public final  class Log {
      */
     public final Log trace(String format, Object... parameters) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(format == null ? "Null format" : format,
-                                       parameters));
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, TRACE_INT, message, null, null);
         }
         return this;
     }
@@ -230,7 +245,7 @@ public final  class Log {
      */
     public final Log trace(String message, Throwable throwable) {
         if (logger.isTraceEnabled()) {
-            logger.trace(message, throwable);
+            logger.log(null, FQCN, TRACE_INT, message, null, throwable);
         }
         return this;
     }
@@ -240,12 +255,12 @@ public final  class Log {
     /**
      * Log a simple message and a {@link Throwable} at <b>TRACE</b> level.
      *
-     * <p><b>NOTE:</b> This is equivalent to {@link #trace(Throwable, String)}
+     * <p><b>NOTE:</b> This is equivalent to {@link #trace(String, Throwable)}
      * but is included with the parameters reversed because of "habit".</p>
      */
     public final Log trace(Throwable throwable, String message) {
         if (logger.isTraceEnabled()) {
-            logger.trace(message, throwable);
+            logger.log(null, FQCN, TRACE_INT, message, null, throwable);
         }
         return this;
     }
@@ -260,9 +275,8 @@ public final  class Log {
      */
     public final Log trace(Throwable throwable, String format, Object parameter1) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(format == null ? "Null format" : format,
-                                       parameter1),
-                        throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, TRACE_INT, message, null, throwable);
         }
         return this;
     }
@@ -277,9 +291,8 @@ public final  class Log {
      */
     public final Log trace(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, TRACE_INT, message, null, throwable);
         }
         return this;
     }
@@ -294,9 +307,8 @@ public final  class Log {
      */
     public final Log trace(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, TRACE_INT, message, null, throwable);
         }
         return this;
     }
@@ -308,9 +320,8 @@ public final  class Log {
      */
     public final Log trace(Throwable throwable, String format, Object... parameters) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(format == null ? "Null format" : format,
-                                       parameters),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, TRACE_INT, message, null, throwable);
         }
         return this;
     }
@@ -336,7 +347,7 @@ public final  class Log {
      */
     public final Log debug(String message) {
         if (logger.isDebugEnabled()) {
-            logger.debug(message);
+            logger.log(null, FQCN, DEBUG_INT, message, null, null);
         }
         return this;
     }
@@ -351,8 +362,8 @@ public final  class Log {
      */
     public final Log debug(String format, Object parameter1) {
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format(format == null ? "Null format" : format,
-                                       parameter1));
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, DEBUG_INT, message, null, null);
         }
         return this;
     }
@@ -367,8 +378,8 @@ public final  class Log {
      */
     public final Log debug(String format, Object parameter1, Object parameter2) {
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2));
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, DEBUG_INT, message, null, null);
         }
         return this;
     }
@@ -383,8 +394,8 @@ public final  class Log {
      */
     public final Log debug(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3));
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, DEBUG_INT, message, null, null);
         }
         return this;
     }
@@ -396,8 +407,8 @@ public final  class Log {
      */
     public final Log debug(String format, Object... parameters) {
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format(format == null ? "Null format" : format,
-                                       parameters));
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, DEBUG_INT, message, null, null);
         }
         return this;
     }
@@ -412,7 +423,7 @@ public final  class Log {
      */
     public final Log debug(String message, Throwable throwable) {
         if (logger.isDebugEnabled()) {
-            logger.debug(message, throwable);
+            logger.log(null, FQCN, DEBUG_INT, message, null, throwable);
         }
         return this;
     }
@@ -422,12 +433,12 @@ public final  class Log {
     /**
      * Log a simple message and a {@link Throwable} at <b>DEBUG</b> level.
      *
-     * <p><b>NOTE:</b> This is equivalent to {@link #debug(Throwable, String)}
+     * <p><b>NOTE:</b> This is equivalent to {@link #debug(String, Throwable)}
      * but is included with the parameters reversed because of "habit".</p>
      */
     public final Log debug(Throwable throwable, String message) {
         if (logger.isDebugEnabled()) {
-            logger.debug(message, throwable);
+            logger.log(null, FQCN, DEBUG_INT, message, null, throwable);
         }
         return this;
     }
@@ -442,9 +453,8 @@ public final  class Log {
      */
     public final Log debug(Throwable throwable, String format, Object parameter1) {
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format(format == null ? "Null format" : format,
-                                       parameter1),
-                        throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, DEBUG_INT, message, null, throwable);
         }
         return this;
     }
@@ -459,9 +469,8 @@ public final  class Log {
      */
     public final Log debug(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, DEBUG_INT, message, null, throwable);
         }
         return this;
     }
@@ -476,9 +485,8 @@ public final  class Log {
      */
     public final Log debug(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, DEBUG_INT, message, null, throwable);
         }
         return this;
     }
@@ -490,9 +498,8 @@ public final  class Log {
      */
     public final Log debug(Throwable throwable, String format, Object... parameters) {
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format(format == null ? "Null format" : format,
-                                       parameters),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, DEBUG_INT, message, null, throwable);
         }
         return this;
     }
@@ -518,7 +525,7 @@ public final  class Log {
      */
     public final Log info(String message) {
         if (logger.isInfoEnabled()) {
-            logger.info(message);
+            logger.log(null, FQCN, INFO_INT, message, null, null);
         }
         return this;
     }
@@ -533,8 +540,8 @@ public final  class Log {
      */
     public final Log info(String format, Object parameter1) {
         if (logger.isInfoEnabled()) {
-            logger.info(String.format(format == null ? "Null format" : format,
-                                       parameter1));
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, INFO_INT, message, null, null);
         }
         return this;
     }
@@ -549,8 +556,8 @@ public final  class Log {
      */
     public final Log info(String format, Object parameter1, Object parameter2) {
         if (logger.isInfoEnabled()) {
-            logger.info(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2));
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, INFO_INT, message, null, null);
         }
         return this;
     }
@@ -565,8 +572,8 @@ public final  class Log {
      */
     public final Log info(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isInfoEnabled()) {
-            logger.info(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3));
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, INFO_INT, message, null, null);
         }
         return this;
     }
@@ -578,8 +585,8 @@ public final  class Log {
      */
     public final Log info(String format, Object... parameters) {
         if (logger.isInfoEnabled()) {
-            logger.info(String.format(format == null ? "Null format" : format,
-                                       parameters));
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, INFO_INT, message, null, null);
         }
         return this;
     }
@@ -594,7 +601,7 @@ public final  class Log {
      */
     public final Log info(String message, Throwable throwable) {
         if (logger.isInfoEnabled()) {
-            logger.info(message, throwable);
+            logger.log(null, FQCN, INFO_INT, message, null, throwable);
         }
         return this;
     }
@@ -604,12 +611,12 @@ public final  class Log {
     /**
      * Log a simple message and a {@link Throwable} at <b>INFO</b> level.
      *
-     * <p><b>NOTE:</b> This is equivalent to {@link #info(Throwable, String)}
+     * <p><b>NOTE:</b> This is equivalent to {@link #info(String, Throwable)}
      * but is included with the parameters reversed because of "habit".</p>
      */
     public final Log info(Throwable throwable, String message) {
         if (logger.isInfoEnabled()) {
-            logger.info(message, throwable);
+            logger.log(null, FQCN, INFO_INT, message, null, throwable);
         }
         return this;
     }
@@ -624,9 +631,8 @@ public final  class Log {
      */
     public final Log info(Throwable throwable, String format, Object parameter1) {
         if (logger.isInfoEnabled()) {
-            logger.info(String.format(format == null ? "Null format" : format,
-                                       parameter1),
-                        throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, INFO_INT, message, null, throwable);
         }
         return this;
     }
@@ -641,9 +647,8 @@ public final  class Log {
      */
     public final Log info(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isInfoEnabled()) {
-            logger.info(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, INFO_INT, message, null, throwable);
         }
         return this;
     }
@@ -658,9 +663,8 @@ public final  class Log {
      */
     public final Log info(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isInfoEnabled()) {
-            logger.info(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, INFO_INT, message, null, throwable);
         }
         return this;
     }
@@ -672,191 +676,8 @@ public final  class Log {
      */
     public final Log info(Throwable throwable, String format, Object... parameters) {
         if (logger.isInfoEnabled()) {
-            logger.info(String.format(format == null ? "Null format" : format,
-                                       parameters),
-                         throwable);
-        }
-        return this;
-    }
-
-    /* ====================================================================== */
-
-    /**
-     * Check if the <b>WARN</b> level is enabled.
-     * <p>
-     * Don't use this in your logging code, we'll check first thing in here.
-     *
-     * @deprecated Because you shouldn't use it!
-     */
-    @Deprecated
-    public final boolean isWarnEnabled() {
-        return logger.isWarnEnabled();
-    }
-
-    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
-
-    /**
-     * Log a simple message at <b>WARN</b> level.
-     */
-    public final Log warn(String message) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(message);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message at <b>WARN</b> level.
-     * <p>
-     * This is exactly the same as {@link #warn(String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log warn(String format, Object parameter1) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(String.format(format == null ? "Null format" : format,
-                                       parameter1));
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message at <b>WARN</b> level.
-     * <p>
-     * This is exactly the same as {@link #warn(String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log warn(String format, Object parameter1, Object parameter2) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2));
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message at <b>WARN</b> level.
-     * <p>
-     * This is exactly the same as {@link #warn(String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log warn(String format, Object parameter1, Object parameter2, Object parameter3) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3));
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message at <b>WARN</b> level.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log warn(String format, Object... parameters) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(String.format(format == null ? "Null format" : format,
-                                       parameters));
-        }
-        return this;
-    }
-
-    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
-
-    /**
-     * Log a simple message and a {@link Throwable} at <b>WARN</b> level.
-     *
-     * <p><b>NOTE:</b> This is equivalent to {@link #warn(Throwable, String)}
-     * but is included with the parameters reversed because of "habit".</p>
-     */
-    public final Log warn(String message, Throwable throwable) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(message, throwable);
-        }
-        return this;
-    }
-
-    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
-
-    /**
-     * Log a simple message and a {@link Throwable} at <b>WARN</b> level.
-     *
-     * <p><b>NOTE:</b> This is equivalent to {@link #warn(Throwable, String)}
-     * but is included with the parameters reversed because of "habit".</p>
-     */
-    public final Log warn(Throwable throwable, String message) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(message, throwable);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message and an {@link Throwable} at <b>WARN</b> level.
-     * <p>
-     * This is exactly the same as {@link #warn(Throwable, String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log warn(Throwable throwable, String format, Object parameter1) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(String.format(format == null ? "Null format" : format,
-                                       parameter1),
-                        throwable);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message and an {@link Throwable} at <b>WARN</b> level.
-     * <p>
-     * This is exactly the same as {@link #warn(Throwable, String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log warn(Throwable throwable, String format, Object parameter1, Object parameter2) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2),
-                         throwable);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message and an {@link Throwable} at <b>WARN</b> level.
-     * <p>
-     * This is exactly the same as {@link #warn(Throwable, String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log warn(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3),
-                         throwable);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message and an {@link Throwable} at <b>WARN</b> level.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log warn(Throwable throwable, String format, Object... parameters) {
-        if (logger.isWarnEnabled()) {
-            logger.warn(String.format(format == null ? "Null format" : format,
-                                       parameters),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, INFO_INT, message, null, throwable);
         }
         return this;
     }
@@ -882,7 +703,7 @@ public final  class Log {
      */
     public final Log error(String message) {
         if (logger.isErrorEnabled()) {
-            logger.error(message);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
         }
         return this;
     }
@@ -897,8 +718,8 @@ public final  class Log {
      */
     public final Log error(String format, Object parameter1) {
         if (logger.isErrorEnabled()) {
-            logger.error(String.format(format == null ? "Null format" : format,
-                                       parameter1));
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
         }
         return this;
     }
@@ -913,8 +734,8 @@ public final  class Log {
      */
     public final Log error(String format, Object parameter1, Object parameter2) {
         if (logger.isErrorEnabled()) {
-            logger.error(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2));
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
         }
         return this;
     }
@@ -929,8 +750,8 @@ public final  class Log {
      */
     public final Log error(String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isErrorEnabled()) {
-            logger.error(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3));
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
         }
         return this;
     }
@@ -942,8 +763,8 @@ public final  class Log {
      */
     public final Log error(String format, Object... parameters) {
         if (logger.isErrorEnabled()) {
-            logger.error(String.format(format == null ? "Null format" : format,
-                                       parameters));
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
         }
         return this;
     }
@@ -958,7 +779,7 @@ public final  class Log {
      */
     public final Log error(String message, Throwable throwable) {
         if (logger.isErrorEnabled()) {
-            logger.error(message, throwable);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
         }
         return this;
     }
@@ -968,12 +789,12 @@ public final  class Log {
     /**
      * Log a simple message and a {@link Throwable} at <b>ERROR</b> level.
      *
-     * <p><b>NOTE:</b> This is equivalent to {@link #error(Throwable, String)}
+     * <p><b>NOTE:</b> This is equivalent to {@link #error(String, Throwable)}
      * but is included with the parameters reversed because of "habit".</p>
      */
     public final Log error(Throwable throwable, String message) {
         if (logger.isErrorEnabled()) {
-            logger.error(message, throwable);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
         }
         return this;
     }
@@ -988,9 +809,8 @@ public final  class Log {
      */
     public final Log error(Throwable throwable, String format, Object parameter1) {
         if (logger.isErrorEnabled()) {
-            logger.error(String.format(format == null ? "Null format" : format,
-                                       parameter1),
-                        throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
         }
         return this;
     }
@@ -1005,9 +825,8 @@ public final  class Log {
      */
     public final Log error(Throwable throwable, String format, Object parameter1, Object parameter2) {
         if (logger.isErrorEnabled()) {
-            logger.error(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
         }
         return this;
     }
@@ -1022,9 +841,8 @@ public final  class Log {
      */
     public final Log error(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
         if (logger.isErrorEnabled()) {
-            logger.error(String.format(format == null ? "Null format" : format,
-                                       parameter1, parameter2, parameter3),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
         }
         return this;
     }
@@ -1036,10 +854,188 @@ public final  class Log {
      */
     public final Log error(Throwable throwable, String format, Object... parameters) {
         if (logger.isErrorEnabled()) {
-            logger.error(String.format(format == null ? "Null format" : format,
-                                       parameters),
-                         throwable);
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
         }
         return this;
     }
+
+    /* ====================================================================== */
+
+    /**
+     * Check if the <b>WARN</b> level is enabled.
+     * <p>
+     * Don't use this in your logging code, we'll check first thing in here.
+     *
+     * @deprecated Because you shouldn't use it!
+     */
+    @Deprecated
+    public final boolean isWarnEnabled() {
+        return logger.isWarnEnabled();
+    }
+
+    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
+
+    /**
+     * Log a simple message at <b>WARN</b> level.
+     */
+    public final Log warn(String message) {
+        if (logger.isWarnEnabled()) {
+            logger.log(null, FQCN, WARN_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message at <b>WARN</b> level.
+     * <p>
+     * This is exactly the same as {@link #warn(String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log warn(String format, Object parameter1) {
+        if (logger.isWarnEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, WARN_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message at <b>WARN</b> level.
+     * <p>
+     * This is exactly the same as {@link #warn(String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log warn(String format, Object parameter1, Object parameter2) {
+        if (logger.isWarnEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, WARN_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message at <b>WARN</b> level.
+     * <p>
+     * This is exactly the same as {@link #warn(String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log warn(String format, Object parameter1, Object parameter2, Object parameter3) {
+        if (logger.isWarnEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, WARN_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message at <b>WARN</b> level.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log warn(String format, Object... parameters) {
+        if (logger.isWarnEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, WARN_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
+
+    /**
+     * Log a simple message and a {@link Throwable} at <b>WARN</b> level.
+     *
+     * <p><b>NOTE:</b> This is equivalent to {@link #warn(Throwable, String)}
+     * but is included with the parameters reversed because of "habit".</p>
+     */
+    public final Log warn(String message, Throwable throwable) {
+        if (logger.isWarnEnabled()) {
+            logger.log(null, FQCN, WARN_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
+
+    /**
+     * Log a simple message and a {@link Throwable} at <b>WARN</b> level.
+     *
+     * <p><b>NOTE:</b> This is equivalent to {@link #warn(String, Throwable)}
+     * but is included with the parameters reversed because of "habit".</p>
+     */
+    public final Log warn(Throwable throwable, String message) {
+        if (logger.isWarnEnabled()) {
+            logger.log(null, FQCN, WARN_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message and an {@link Throwable} at <b>WARN</b> level.
+     * <p>
+     * This is exactly the same as {@link #warn(Throwable, String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log warn(Throwable throwable, String format, Object parameter1) {
+        if (logger.isWarnEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, WARN_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message and an {@link Throwable} at <b>WARN</b> level.
+     * <p>
+     * This is exactly the same as {@link #warn(Throwable, String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log warn(Throwable throwable, String format, Object parameter1, Object parameter2) {
+        if (logger.isWarnEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, WARN_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message and an {@link Throwable} at <b>WARN</b> level.
+     * <p>
+     * This is exactly the same as {@link #warn(Throwable, String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log warn(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
+        if (logger.isWarnEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, WARN_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message and an {@link Throwable} at <b>WARN</b> level.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log warn(Throwable throwable, String format, Object... parameters) {
+        if (logger.isWarnEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, WARN_INT, message, null, throwable);
+        }
+        return this;
+    }
+
 }
