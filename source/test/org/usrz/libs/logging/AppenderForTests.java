@@ -60,12 +60,19 @@ extends AppenderBase<E> implements Appender<E> {
         private final Level level;
         private final String message;
         private final IThrowableProxy throwable;
+        private final String caller;
 
         private LogEvent(ILoggingEvent event) {
             this.className = event.getLoggerName();
             this.level = event.getLevel();
             this.message = event.getFormattedMessage();
             this.throwable = event.getThrowableProxy();
+            this.caller = event.getCallerData()[0].getClassName();
+        }
+
+        public LogEvent assertCaller(Object caller) {
+            assertEquals(this.caller, caller.getClass().getName());
+            return this;
         }
 
         public LogEvent assertClass(Class<?> clazz) {
