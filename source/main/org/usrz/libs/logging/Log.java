@@ -685,184 +685,6 @@ public final  class Log {
     /* ====================================================================== */
 
     /**
-     * Check if the <b>ERROR</b> level is enabled.
-     * <p>
-     * Don't use this in your logging code, we'll check first thing in here.
-     *
-     * @deprecated Because you shouldn't use it!
-     */
-    @Deprecated
-    public final boolean isErrorEnabled() {
-        return logger.isErrorEnabled();
-    }
-
-    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
-
-    /**
-     * Log a simple message at <b>ERROR</b> level.
-     */
-    public final Log error(String message) {
-        if (logger.isErrorEnabled()) {
-            logger.log(null, FQCN, ERROR_INT, message, null, null);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message at <b>ERROR</b> level.
-     * <p>
-     * This is exactly the same as {@link #error(String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log error(String format, Object parameter1) {
-        if (logger.isErrorEnabled()) {
-            final String message = String.format(format == null ? "Null format" : format, parameter1);
-            logger.log(null, FQCN, ERROR_INT, message, null, null);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message at <b>ERROR</b> level.
-     * <p>
-     * This is exactly the same as {@link #error(String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log error(String format, Object parameter1, Object parameter2) {
-        if (logger.isErrorEnabled()) {
-            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
-            logger.log(null, FQCN, ERROR_INT, message, null, null);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message at <b>ERROR</b> level.
-     * <p>
-     * This is exactly the same as {@link #error(String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log error(String format, Object parameter1, Object parameter2, Object parameter3) {
-        if (logger.isErrorEnabled()) {
-            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
-            logger.log(null, FQCN, ERROR_INT, message, null, null);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message at <b>ERROR</b> level.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log error(String format, Object... parameters) {
-        if (logger.isErrorEnabled()) {
-            final String message = String.format(format == null ? "Null format" : format, parameters);
-            logger.log(null, FQCN, ERROR_INT, message, null, null);
-        }
-        return this;
-    }
-
-    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
-
-    /**
-     * Log a simple message and a {@link Throwable} at <b>ERROR</b> level.
-     *
-     * <p><b>NOTE:</b> This is equivalent to {@link #error(Throwable, String)}
-     * but is included with the parameters reversed because of "habit".</p>
-     */
-    public final Log error(String message, Throwable throwable) {
-        if (logger.isErrorEnabled()) {
-            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
-        }
-        return this;
-    }
-
-    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
-
-    /**
-     * Log a simple message and a {@link Throwable} at <b>ERROR</b> level.
-     *
-     * <p><b>NOTE:</b> This is equivalent to {@link #error(String, Throwable)}
-     * but is included with the parameters reversed because of "habit".</p>
-     */
-    public final Log error(Throwable throwable, String message) {
-        if (logger.isErrorEnabled()) {
-            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message and an {@link Throwable} at <b>ERROR</b> level.
-     * <p>
-     * This is exactly the same as {@link #error(Throwable, String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log error(Throwable throwable, String format, Object parameter1) {
-        if (logger.isErrorEnabled()) {
-            final String message = String.format(format == null ? "Null format" : format, parameter1);
-            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message and an {@link Throwable} at <b>ERROR</b> level.
-     * <p>
-     * This is exactly the same as {@link #error(Throwable, String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log error(Throwable throwable, String format, Object parameter1, Object parameter2) {
-        if (logger.isErrorEnabled()) {
-            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
-            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message and an {@link Throwable} at <b>ERROR</b> level.
-     * <p>
-     * This is exactly the same as {@link #error(Throwable, String, Object...)}
-     * but does not incur in the (minimal) time needed to create an array.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log error(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
-        if (logger.isErrorEnabled()) {
-            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
-            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
-        }
-        return this;
-    }
-
-    /**
-     * Log a formatted message and an {@link Throwable} at <b>ERROR</b> level.
-     *
-     * @see String#format(String, Object...)
-     */
-    public final Log error(Throwable throwable, String format, Object... parameters) {
-        if (logger.isErrorEnabled()) {
-            final String message = String.format(format == null ? "Null format" : format, parameters);
-            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
-        }
-        return this;
-    }
-
-    /* ====================================================================== */
-
-    /**
      * Check if the <b>WARN</b> level is enabled.
      * <p>
      * Don't use this in your logging code, we'll check first thing in here.
@@ -1038,4 +860,181 @@ public final  class Log {
         return this;
     }
 
+    /* ====================================================================== */
+
+    /**
+     * Check if the <b>ERROR</b> level is enabled.
+     * <p>
+     * Don't use this in your logging code, we'll check first thing in here.
+     *
+     * @deprecated Because you shouldn't use it!
+     */
+    @Deprecated
+    public final boolean isErrorEnabled() {
+        return logger.isErrorEnabled();
+    }
+
+    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
+
+    /**
+     * Log a simple message at <b>ERROR</b> level.
+     */
+    public final Log error(String message) {
+        if (logger.isErrorEnabled()) {
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message at <b>ERROR</b> level.
+     * <p>
+     * This is exactly the same as {@link #error(String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log error(String format, Object parameter1) {
+        if (logger.isErrorEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message at <b>ERROR</b> level.
+     * <p>
+     * This is exactly the same as {@link #error(String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log error(String format, Object parameter1, Object parameter2) {
+        if (logger.isErrorEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message at <b>ERROR</b> level.
+     * <p>
+     * This is exactly the same as {@link #error(String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log error(String format, Object parameter1, Object parameter2, Object parameter3) {
+        if (logger.isErrorEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message at <b>ERROR</b> level.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log error(String format, Object... parameters) {
+        if (logger.isErrorEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, ERROR_INT, message, null, null);
+        }
+        return this;
+    }
+
+    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
+
+    /**
+     * Log a simple message and a {@link Throwable} at <b>ERROR</b> level.
+     *
+     * <p><b>NOTE:</b> This is equivalent to {@link #error(Throwable, String)}
+     * but is included with the parameters reversed because of "habit".</p>
+     */
+    public final Log error(String message, Throwable throwable) {
+        if (logger.isErrorEnabled()) {
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
+
+    /**
+     * Log a simple message and a {@link Throwable} at <b>ERROR</b> level.
+     *
+     * <p><b>NOTE:</b> This is equivalent to {@link #error(String, Throwable)}
+     * but is included with the parameters reversed because of "habit".</p>
+     */
+    public final Log error(Throwable throwable, String message) {
+        if (logger.isErrorEnabled()) {
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message and an {@link Throwable} at <b>ERROR</b> level.
+     * <p>
+     * This is exactly the same as {@link #error(Throwable, String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log error(Throwable throwable, String format, Object parameter1) {
+        if (logger.isErrorEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message and an {@link Throwable} at <b>ERROR</b> level.
+     * <p>
+     * This is exactly the same as {@link #error(Throwable, String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log error(Throwable throwable, String format, Object parameter1, Object parameter2) {
+        if (logger.isErrorEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message and an {@link Throwable} at <b>ERROR</b> level.
+     * <p>
+     * This is exactly the same as {@link #error(Throwable, String, Object...)}
+     * but does not incur in the (minimal) time needed to create an array.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log error(Throwable throwable, String format, Object parameter1, Object parameter2, Object parameter3) {
+        if (logger.isErrorEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameter1, parameter2, parameter3);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
+        }
+        return this;
+    }
+
+    /**
+     * Log a formatted message and an {@link Throwable} at <b>ERROR</b> level.
+     *
+     * @see String#format(String, Object...)
+     */
+    public final Log error(Throwable throwable, String format, Object... parameters) {
+        if (logger.isErrorEnabled()) {
+            final String message = String.format(format == null ? "Null format" : format, parameters);
+            logger.log(null, FQCN, ERROR_INT, message, null, throwable);
+        }
+        return this;
+    }
 }
