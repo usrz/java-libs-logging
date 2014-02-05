@@ -15,11 +15,25 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
+import static java.lang.Integer.MIN_VALUE;
+import static org.apache.log4j.Level.DEBUG;
+import static org.apache.log4j.Level.ERROR;
+import static org.apache.log4j.Level.FATAL;
+import static org.apache.log4j.Level.INFO;
+import static org.apache.log4j.Level.TRACE;
+import static org.apache.log4j.Level.WARN;
+import static org.slf4j.spi.LocationAwareLogger.DEBUG_INT;
+import static org.slf4j.spi.LocationAwareLogger.ERROR_INT;
+import static org.slf4j.spi.LocationAwareLogger.INFO_INT;
+import static org.slf4j.spi.LocationAwareLogger.TRACE_INT;
+import static org.slf4j.spi.LocationAwareLogger.WARN_INT;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
 import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * A logging adapter (or in other words a <i>logger<i> implementation) for
@@ -29,11 +43,13 @@ import org.slf4j.LoggerFactory;
  */
 public final class Log4j1Adapter extends Logger {
 
-    private final org.slf4j.Logger logger;
+    private static final String FQCN = Logger.class.getName();
+
+    private final LocationAwareLogger logger;
 
     protected Log4j1Adapter(Log4j1Bridge bridge, String name) {
         super(name);
-        logger = LoggerFactory.getLogger(name);
+        logger = (LocationAwareLogger) LoggerFactory.getLogger(name);
         repository = bridge;
 
         super.setLevel(logger.isTraceEnabled() ? Level.TRACE :
@@ -59,6 +75,16 @@ public final class Log4j1Adapter extends Logger {
         final Level level = event.getLevel();
         if (level.equals(Level.OFF)) return;
 
+        final int slf4jLevel = level.equals(FATAL) ? logger.isErrorEnabled() ? ERROR_INT : MIN_VALUE :
+                               level.equals(ERROR) ? logger.isErrorEnabled() ? ERROR_INT : MIN_VALUE :
+                               level.equals(WARN)  ? logger.isWarnEnabled()  ? WARN_INT  : MIN_VALUE :
+                               level.equals(INFO)  ? logger.isInfoEnabled()  ? INFO_INT  : MIN_VALUE :
+                               level.equals(DEBUG) ? logger.isDebugEnabled() ? DEBUG_INT : MIN_VALUE :
+                               level.equals(TRACE) ? logger.isTraceEnabled() ? TRACE_INT : MIN_VALUE :
+                               MIN_VALUE;
+
+        if (slf4jLevel == MIN_VALUE) return;
+
         final Object messageObject = event.getMessage();
         final String message = messageObject == null ? "Null message" :
                                messageObject instanceof String ? (String) messageObject :
@@ -66,25 +92,8 @@ public final class Log4j1Adapter extends Logger {
         final ThrowableInformation throwableInformation = event.getThrowableInformation();
         final Throwable throwable = throwableInformation == null ? null : throwableInformation.getThrowable();
 
-        if        (level.equals(Level.FATAL)) {
-            if (throwable == null) logger.error(message);
-            else                   logger.error(message, throwable);
-        } else if (level.equals(Level.ERROR)) {
-            if (throwable == null) logger.error(message);
-            else                   logger.error(message, throwable);
-        } else if (level.equals(Level.WARN)) {
-            if (throwable == null) logger.warn(message);
-            else                   logger.warn(message, throwable);
-        } else if (level.equals(Level.INFO)) {
-            if (throwable == null) logger.info(message);
-            else                   logger.info(message, throwable);
-        } else if (level.equals(Level.DEBUG)) {
-            if (throwable == null) logger.debug(message);
-            else                   logger.debug(message, throwable);
-        } else if (level.equals(Level.TRACE)) {
-            if (throwable == null) logger.trace(message);
-            else                   logger.trace(message, throwable);
-        }
+        logger.log(null, FQCN, slf4jLevel, message, null, throwable);
+
     }
 
 }

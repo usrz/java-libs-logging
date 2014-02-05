@@ -38,9 +38,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.trace(message);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.TRACE)
-                                   .assertMessage(message)
-                                   .assertThrowable(null);
+                                       .assertLevel(Level.TRACE)
+                                       .assertMessage(message)
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -51,9 +52,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.trace(message, throwable);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.TRACE)
-                                   .assertMessage(message)
-                                   .assertThrowable(throwable);
+                                       .assertLevel(Level.TRACE)
+                                       .assertMessage(message)
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -63,9 +65,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.debug(message);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.DEBUG)
-                                   .assertMessage(message)
-                                   .assertThrowable(null);
+                                       .assertLevel(Level.DEBUG)
+                                       .assertMessage(message)
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -76,9 +79,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.debug(message, throwable);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.DEBUG)
-                                   .assertMessage(message)
-                                   .assertThrowable(throwable);
+                                       .assertLevel(Level.DEBUG)
+                                       .assertMessage(message)
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -88,9 +92,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.info(message);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.INFO)
-                                   .assertMessage(message)
-                                   .assertThrowable(null);
+                                       .assertLevel(Level.INFO)
+                                       .assertMessage(message)
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -101,9 +106,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.info(message, throwable);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.INFO)
-                                   .assertMessage(message)
-                                   .assertThrowable(throwable);
+                                       .assertLevel(Level.INFO)
+                                       .assertMessage(message)
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -113,9 +119,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.warn(message);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.WARN)
-                                   .assertMessage(message)
-                                   .assertThrowable(null);
+                                       .assertLevel(Level.WARN)
+                                       .assertMessage(message)
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -126,9 +133,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.warn(message, throwable);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.WARN)
-                                   .assertMessage(message)
-                                   .assertThrowable(throwable);
+                                       .assertLevel(Level.WARN)
+                                       .assertMessage(message)
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -138,9 +146,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.error(message);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.ERROR)
-                                   .assertMessage(message)
-                                   .assertThrowable(null);
+                                       .assertLevel(Level.ERROR)
+                                       .assertMessage(message)
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -151,9 +160,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.error(message, throwable);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.ERROR)
-                                   .assertMessage(message)
-                                   .assertThrowable(throwable);
+                                       .assertLevel(Level.ERROR)
+                                       .assertMessage(message)
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -163,9 +173,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.fatal(message);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.ERROR)
-                                   .assertMessage(message)
-                                   .assertThrowable(null);
+                                       .assertLevel(Level.ERROR)
+                                       .assertMessage(message)
+                                       .assertThrowable(null)
+                                       .assertCaller(this);
     }
 
     @Test
@@ -176,9 +187,10 @@ public class Log4j1LoggingTest extends AbstractTest {
         logger.fatal(message, throwable);
 
         AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                   .assertLevel(Level.ERROR)
-                                   .assertMessage(message)
-                                   .assertThrowable(throwable);
+                                       .assertLevel(Level.ERROR)
+                                       .assertMessage(message)
+                                       .assertThrowable(throwable)
+                                       .assertCaller(this);
     }
 
 }
