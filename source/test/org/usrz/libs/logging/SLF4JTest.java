@@ -24,12 +24,15 @@ import ch.qos.logback.classic.Level;
 
 public class SLF4JTest extends AbstractTest {
 
+    static { Logging.init(); }
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
     public void testSLF4JLoggingError() {
         logger.error("Hello world {}", 1);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
                                        .assertLevel(Level.ERROR)
                                        .assertMessage("Hello world 1")
                                        .assertThrowable(null);
@@ -39,16 +42,18 @@ public class SLF4JTest extends AbstractTest {
     public void testSLF4JLoggingErrorThrowable() {
         final Throwable throwable = new Throwable("This is a throwable 1");
         logger.error("Hello world", throwable);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                               .assertLevel(Level.ERROR)
-                                               .assertMessage("Hello world")
-                                               .assertThrowable(throwable);
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
+                                       .assertLevel(Level.ERROR)
+                                       .assertMessage("Hello world")
+                                       .assertThrowable(throwable);
     }
 
     @Test
     public void testSLF4JLoggingWarn() {
         logger.warn("Hello world {}", 2);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
                                        .assertLevel(Level.WARN)
                                        .assertMessage("Hello world 2")
                                        .assertThrowable(null);
@@ -58,67 +63,74 @@ public class SLF4JTest extends AbstractTest {
     public void testSLF4JLoggingWarnThrowable() {
         final Throwable throwable = new Throwable("This is a throwable 2");
         logger.warn("Hello world", throwable);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                               .assertLevel(Level.WARN)
-                                               .assertMessage("Hello world")
-                                               .assertThrowable(throwable);
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
+                                       .assertLevel(Level.WARN)
+                                       .assertMessage("Hello world")
+                                       .assertThrowable(throwable);
     }
 
     @Test
     public void testSLF4JLoggingInfo() {
         logger.info("Hello world {}", 3);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                               .assertLevel(Level.INFO)
-                                               .assertMessage("Hello world 3")
-                                               .assertThrowable(null);
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
+                                       .assertLevel(Level.INFO)
+                                       .assertMessage("Hello world 3")
+                                       .assertThrowable(null);
     }
 
     @Test
     public void testSLF4JLoggingInfoThrowable() {
         final Throwable throwable = new Throwable("This is a throwable 3");
         logger.info("Hello world", throwable);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                               .assertLevel(Level.INFO)
-                                               .assertMessage("Hello world")
-                                               .assertThrowable(throwable);
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
+                                       .assertLevel(Level.INFO)
+                                       .assertMessage("Hello world")
+                                       .assertThrowable(throwable);
     }
 
     @Test
     public void testSLF4JLoggingDebug() {
         logger.debug("Hello world {}", 4);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                               .assertLevel(Level.DEBUG)
-                                               .assertMessage("Hello world 4")
-                                               .assertThrowable(null);
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
+                                       .assertLevel(Level.DEBUG)
+                                       .assertMessage("Hello world 4")
+                                       .assertThrowable(null);
     }
 
     @Test
     public void testSLF4JLoggingDebugThrowable() {
         final Throwable throwable = new Throwable("This is a throwable 4");
         logger.debug("Hello world", throwable);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                               .assertLevel(Level.DEBUG)
-                                               .assertMessage("Hello world")
-                                               .assertThrowable(throwable);
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
+                                       .assertLevel(Level.DEBUG)
+                                       .assertMessage("Hello world")
+                                       .assertThrowable(throwable);
     }
 
     @Test
     public void testSLF4JLoggingTraceError() {
         logger.trace("Hello world {}", 5);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                               .assertLevel(Level.TRACE)
-                                               .assertMessage("Hello world 5")
-                                               .assertThrowable(null);
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
+                                       .assertLevel(Level.TRACE)
+                                       .assertMessage("Hello world 5")
+                                       .assertThrowable(null);
     }
 
     @Test
     public void testSLF4JLoggingTraceThrowable() {
         final Throwable throwable = new Throwable("This is a throwable 5");
         logger.trace("Hello world", throwable);
-        AppenderForTests.hasLastEvent().assertClass(this.getClass())
-                                               .assertLevel(Level.TRACE)
-                                               .assertMessage("Hello world")
-                                               .assertThrowable(throwable);
+        AppenderForTests.hasLastEvent().assertCaller(this)
+                                       .assertClass(this.getClass())
+                                       .assertLevel(Level.TRACE)
+                                       .assertMessage("Hello world")
+                                       .assertThrowable(throwable);
     }
 
 }
