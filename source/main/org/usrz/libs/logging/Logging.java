@@ -15,6 +15,9 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A class initializing the logging environment.
  *
@@ -43,6 +46,9 @@ public final class Logging {
 
         synchronized (Logging.class) {
 
+            /* Messages for post-initialization */
+            final List<String> messages = new ArrayList<>();
+
             /* Java Logging initialization */
             try {
                 final String property = System.getProperty("java.util.logging.manager");
@@ -61,6 +67,8 @@ public final class Logging {
                 throw new IllegalStateException("Java Logging not initialized:" +
                         " bridge=" + java.util.logging.LogManager.getLogManager().getClass().getName() +
                         " adapter=" + java.util.logging.Logger.getLogger(Logging.class.getName()).getClass().getName());
+            } catch (NoClassDefFoundError error) {
+                messages.add("Java Logging not found");
             }
 
             /* Log4j 1 Logging initialization */
@@ -78,6 +86,8 @@ public final class Logging {
                 throw new IllegalStateException("Log4j v1 Logging not initialized:" +
                         " bridge=" + org.apache.log4j.LogManager.getLoggerRepository().getClass().getName() +
                         " adapter=" + org.apache.log4j.Logger.getLogger(Logging.class).getClass().getName());
+            } catch (NoClassDefFoundError error) {
+                messages.add("Log4j v1 Logging not found");
             }
 
             /* Log4j 2 Logging initialization */
@@ -98,6 +108,8 @@ public final class Logging {
                 throw new IllegalStateException("Log4j v2 Logging not initialized:" +
                         " bridge=" + org.apache.logging.log4j.LogManager.getContext().getClass().getName() +
                         " adapter=" + org.apache.logging.log4j.LogManager.getLogger(Logging.class).getClass().getName());
+            } catch (NoClassDefFoundError error) {
+                messages.add("Log4j v2 Logging not found");
             }
 
             /* Commons Logging initialization */
@@ -118,10 +130,16 @@ public final class Logging {
                 throw new IllegalStateException("Commons Logging not initialized:" +
                         " bridge=" + org.apache.commons.logging.LogFactory.getFactory().getClass().getName() +
                         " adapter=" + org.apache.commons.logging.LogFactory.getLog(Logging.class).getClass().getName());
+            } catch (NoClassDefFoundError error) {
+                messages.add("Commons Logging not found");
             }
 
             /* We are initialized */
             initialized = true;
+
+            /* Use SLF4J here, as we might be still initializing our "Log" class */
+            final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(Logging.class);
+            for (String message: messages) logger.info(message);
         }
     }
 
