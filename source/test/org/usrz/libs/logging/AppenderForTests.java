@@ -35,7 +35,7 @@ extends AppenderBase<E> implements Appender<E> {
 
     @Override
     protected void append(E eventObject) {
-        assertTrue(LAST_EVENT.compareAndSet(null, new LogEvent(eventObject)), "Last event not cleared");
+        assertTrue(LAST_EVENT.compareAndSet(null, new LogEvent(eventObject)), "Last event [" + LAST_EVENT.get().message + "] not cleared");
     }
 
     public static void hasNoLastEvent(String message) {

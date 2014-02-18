@@ -33,7 +33,6 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.message.MessageFactory;
 import org.apache.logging.log4j.spi.AbstractLogger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MarkerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
@@ -49,12 +48,12 @@ public final class Log4j2Adapter extends AbstractLogger {
 
     protected Log4j2Adapter(String name) {
         super(name);
-        logger = (LocationAwareLogger) LoggerFactory.getLogger(name);
+        logger = SLF4JFactory.getLogger(name);
     }
 
     protected Log4j2Adapter(String name, MessageFactory factory) {
         super(name, factory);
-        logger = (LocationAwareLogger) LoggerFactory.getLogger(name);
+        logger = SLF4JFactory.getLogger(name);
     }
 
     @Override

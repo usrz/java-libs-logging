@@ -126,7 +126,7 @@ public final  class Log {
     /* ====================================================================== */
 
     private Log(Logger logger) {
-        this.logger = (LocationAwareLogger) logger;
+        this.logger = SLF4JFactory.asLocationAwareLogger(logger);
     }
 
     /* ====================================================================== */

@@ -16,13 +16,13 @@
 package org.usrz.libs.logging;
 
 import org.apache.log4j.Priority;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.usrz.libs.testing.AbstractTest;
 
 
-public class LevelErrorTest extends AbstractTest {
+public class LevelErrorTest extends Assert {
 
-    static { Logging.init(); }
+    static { Logging.init(true); }
 
     @Test
     public void testCommonsLogging() {

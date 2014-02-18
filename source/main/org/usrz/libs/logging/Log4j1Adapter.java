@@ -32,7 +32,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
-import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -49,7 +48,7 @@ public final class Log4j1Adapter extends Logger {
 
     protected Log4j1Adapter(Log4j1Bridge bridge, String name) {
         super(name);
-        logger = (LocationAwareLogger) LoggerFactory.getLogger(name);
+        logger = SLF4JFactory.getLogger(name);
         repository = bridge;
 
         super.setLevel(logger.isTraceEnabled() ? Level.TRACE :

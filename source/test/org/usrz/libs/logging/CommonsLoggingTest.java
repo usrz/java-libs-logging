@@ -19,14 +19,14 @@ import java.util.Random;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class CommonsLoggingTest extends AbstractTest {
+public class CommonsLoggingTest extends Assert {
 
-    static { Logging.init(); }
+    static { Logging.init(true); }
 
     private final Log logger = LogFactory.getLog(this.getClass());
     private final Random random = new Random();

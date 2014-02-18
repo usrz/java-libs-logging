@@ -15,8 +15,6 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A class initializing the logging environment.
@@ -38,108 +36,67 @@ public final class Logging {
     /**
      * Conquer all logging subsystems, and rule their world with an iron fist!
      *
-     * <p>This method, ironically enough, will fail badly if the world can not be
-     *  conquered. Call this <b>first</b> before you do <i>anything</i> else.</p>
+     * <p>This method, ironically enough, will fail badly if the world can
+     * not be conquered. Call this <b>first</b> before you do <i>anything</i>
+     * else.</p>
+     *
+     * <p>Called this way, this method will not be verbosely prompting to
+     * standard error what's happening.</p>
      */
     public static void init() {
+        init(false);
+    }
+
+    /**
+     * Conquer all logging subsystems, and rule their world with an iron fist!
+     *
+     * <p>This method, ironically enough, will fail badly if the world can
+     * not be conquered. Call this <b>first</b> before you do <i>anything</i>
+     * else.</p>
+     *
+     * @param verbose If <b>true</b> debug output will be written to
+     *                {@linkplain System#err standard error}.
+     */
+    public static void init(boolean verbose) {
         if (initialized) return;
 
         synchronized (Logging.class) {
 
-            /* Messages for post-initialization */
-            final List<String> messages = new ArrayList<>();
-
             /* Java Logging initialization */
             try {
-                final String property = System.getProperty("java.util.logging.manager");
-                if ((property != null) && (!JavaLoggingBridge.class.getName().equals(property)))
-                    throw new IllegalStateException("System property \"java.util.logging.manager\" set to \"" + property + "\"");
-                System.setProperty("java.util.logging.manager", JavaLoggingBridge.class.getName());
-
-                final JavaLoggingBridge bridge = (JavaLoggingBridge) java.util.logging.LogManager.getLogManager();
-                final JavaLoggingAdapter adapter = (JavaLoggingAdapter) java.util.logging.Logger.getLogger(Logging.class.getName());
-
-                if (bridge == null) throw new IllegalStateException("No Java LogManager instantiated");
-                if (adapter == null) throw new IllegalStateException("No Java Logger instantiated");
-
-                adapter.fine("Java Logging initialized");
-            } catch (ClassCastException exception) {
-                throw new IllegalStateException("Java Logging not initialized:" +
-                        " bridge=" + java.util.logging.LogManager.getLogManager().getClass().getName() +
-                        " adapter=" + java.util.logging.Logger.getLogger(Logging.class.getName()).getClass().getName());
+                JavaLoggingInitializer.init();
+                if (verbose) System.err.println("Java Logging initialized");
             } catch (NoClassDefFoundError error) {
-                messages.add("Java Logging not found");
+                if (verbose) System.err.println("Java Logging not found");
             }
 
             /* Log4j 1 Logging initialization */
             try {
-                org.apache.log4j.LogManager.setRepositorySelector(new Log4j1Bridge(), new Object());
-
-                final Log4j1Bridge bridge = (Log4j1Bridge) org.apache.log4j.LogManager.getLoggerRepository();
-                final Log4j1Adapter adapter = (Log4j1Adapter) org.apache.log4j.Logger.getLogger(Logging.class);
-
-                if (bridge == null) throw new IllegalStateException("No Log4j v1 LoggerRepository instantiated");
-                if (adapter == null) throw new IllegalStateException("No Log4j v1 Logger instantiated");
-
-                adapter.debug("Log4j v1 Logging initialized");
-            } catch (ClassCastException exception) {
-                throw new IllegalStateException("Log4j v1 Logging not initialized:" +
-                        " bridge=" + org.apache.log4j.LogManager.getLoggerRepository().getClass().getName() +
-                        " adapter=" + org.apache.log4j.Logger.getLogger(Logging.class).getClass().getName());
+                Log4j1Initializer.init();
+                if (verbose) System.err.println("Log4j v1 Logging initialized");
             } catch (NoClassDefFoundError error) {
-                messages.add("Log4j v1 Logging not found");
+                if (verbose) System.err.println("Log4j v1 Logging not found");
             }
 
             /* Log4j 2 Logging initialization */
             try {
-                final String property = System.getProperty("log4j2.loggerContextFactory");
-                if ((property != null) && (!Log4j2Bridge.class.getName().equals(property)))
-                    throw new IllegalStateException("System property \"log4j2.LoggerContextFactory\" set to \"" + property + "\"");
-                System.setProperty("log4j2.loggerContextFactory", Log4j2Bridge.class.getName());
-
-                final Log4j2Bridge bridge = (Log4j2Bridge) org.apache.logging.log4j.LogManager.getContext();
-                final Log4j2Adapter adapter = (Log4j2Adapter) org.apache.logging.log4j.LogManager.getLogger(Logging.class);
-
-                if (bridge == null) throw new IllegalStateException("No Log4j v2 LoggerRepository instantiated");
-                if (adapter == null) throw new IllegalStateException("No Log4j v2 Logger instantiated");
-
-                adapter.debug("Log4j v2 Logging initialized");
-            } catch (ClassCastException exception) {
-                throw new IllegalStateException("Log4j v2 Logging not initialized:" +
-                        " bridge=" + org.apache.logging.log4j.LogManager.getContext().getClass().getName() +
-                        " adapter=" + org.apache.logging.log4j.LogManager.getLogger(Logging.class).getClass().getName());
+                Log4j2Initializer.init();
+                if (verbose) System.err.println("Log4j v2 Logging initialized");
             } catch (NoClassDefFoundError error) {
-                messages.add("Log4j v2 Logging not found");
+                if (verbose) System.err.println("Log4j v2 Logging not found");
             }
 
             /* Commons Logging initialization */
             try {
-                final String property = System.getProperty("org.apache.commons.logging.LogFactory");
-                if ((property != null) && (!CommonsLoggingBridge.class.getName().equals(property)))
-                    throw new IllegalStateException("System property \"org.apache.commons.logging.LogFactory\" set to \"" + property + "\"");
-                System.setProperty("org.apache.commons.logging.LogFactory", CommonsLoggingBridge.class.getName());
-
-                final CommonsLoggingBridge bridge = (CommonsLoggingBridge) org.apache.commons.logging.LogFactory.getFactory();
-                final CommonsLoggingAdapter adapter = (CommonsLoggingAdapter) org.apache.commons.logging.LogFactory.getLog(Logging.class);
-
-                if (bridge == null) throw new IllegalStateException("No Commons LogFactory instantiated");
-                if (adapter == null) throw new IllegalStateException("No Commons Log instantiated");
-
-                adapter.debug("Commons Logging initialized");
-            } catch (ClassCastException exception) {
-                throw new IllegalStateException("Commons Logging not initialized:" +
-                        " bridge=" + org.apache.commons.logging.LogFactory.getFactory().getClass().getName() +
-                        " adapter=" + org.apache.commons.logging.LogFactory.getLog(Logging.class).getClass().getName());
+                CommonsLoggingInitializer.init();
+                if (verbose) System.err.println("Commons Logging initialized");
             } catch (NoClassDefFoundError error) {
-                messages.add("Commons Logging not found");
+                if (verbose) System.err.println("Commons Logging not found");
             }
 
             /* We are initialized */
             initialized = true;
 
-            /* Use SLF4J here, as we might be still initializing our "Log" class */
-            final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(Logging.class);
-            for (String message: messages) logger.info(message);
         }
     }
 

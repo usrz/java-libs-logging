@@ -26,14 +26,14 @@ import static java.util.logging.Level.WARNING;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class JavaLoggingTest extends AbstractTest {
+public class JavaLoggingTest extends Assert {
 
-    static { Logging.init(); }
+    static { Logging.init(true); }
 
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final Random random = new Random();

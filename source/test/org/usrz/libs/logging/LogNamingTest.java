@@ -15,12 +15,12 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.usrz.libs.testing.AbstractTest;
 
-public class LogNamingTest extends AbstractTest {
+public class LogNamingTest extends Assert {
 
-    static { Logging.init(); }
+    static { Logging.init(true); }
 
     private static final Log log = new Log();
 

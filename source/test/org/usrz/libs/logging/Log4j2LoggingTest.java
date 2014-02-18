@@ -19,14 +19,14 @@ import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class Log4j2LoggingTest extends AbstractTest {
+public class Log4j2LoggingTest extends Assert {
 
-    static { Logging.init(); }
+    static { Logging.init(true); }
 
     private final Logger logger = LogManager.getLogger(this.getClass());
     private final Random random = new Random();

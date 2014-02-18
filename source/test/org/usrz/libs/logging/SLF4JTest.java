@@ -17,14 +17,14 @@ package org.usrz.libs.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class SLF4JTest extends AbstractTest {
+public class SLF4JTest extends Assert {
 
-    static { Logging.init(); }
+    static { Logging.init(true); }
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

@@ -37,7 +37,7 @@ public final class CommonsLoggingAdapter implements Log {
     private final LocationAwareLogger logger;
 
     protected CommonsLoggingAdapter(String className) {
-        logger = (LocationAwareLogger) org.slf4j.LoggerFactory.getLogger(className);
+        logger = SLF4JFactory.getLogger(className);
     }
 
     /* ====================================================================== */

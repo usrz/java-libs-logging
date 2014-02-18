@@ -29,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -67,7 +66,7 @@ public final class JavaLoggingAdapter extends Logger {
 
     protected JavaLoggingAdapter(String name) {
         super(name, null);
-        logger = (LocationAwareLogger) LoggerFactory.getLogger(name);
+        logger = SLF4JFactory.getLogger(name);
 
         super.setLevel(logger.isTraceEnabled() ? Level.FINEST :
                        logger.isDebugEnabled() ? Level.FINE :

@@ -15,14 +15,14 @@
  * ========================================================================== */
 package org.usrz.libs.logging;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.usrz.libs.testing.AbstractTest;
 
 import ch.qos.logback.classic.Level;
 
-public class LogMethodsTest extends AbstractTest {
+public class LogMethodsTest extends Assert {
 
-    static { Logging.init(); }
+    static { Logging.init(true); }
 
     private static final Log log = new Log();
 
