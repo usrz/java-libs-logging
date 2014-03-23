@@ -51,7 +51,7 @@ public final class JavaLoggingAdapter extends Logger {
     /* ====================================================================== */
 
     private final LocationAwareLogger logger;
-    private final int levelValue;
+    private int levelValue;
 
     private final Formatter formatter = new Formatter() {
 
@@ -110,7 +110,7 @@ public final class JavaLoggingAdapter extends Logger {
 
     @Override
     public void setLevel(Level newLevel) {
-        throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
+        levelValue = newLevel.intValue();
     }
 
     @Override
