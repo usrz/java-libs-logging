@@ -19,7 +19,9 @@ import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
@@ -30,12 +32,19 @@ import java.util.logging.Logger;
  */
 public final class JavaLoggingBridge extends LogManager {
 
+    private final Logger disabled;
+
     public JavaLoggingBridge() {
-        super();
+        /* This fixes some issues in JDK8's Nashorn */
+        disabled = new Logger("disabled", null) {
+            @Override public void log(LogRecord record) {}
+            @Override public Level getLevel() { return Level.OFF; }
+        };
     }
 
     @Override
-    public JavaLoggingAdapter getLogger(String name) {
+    public Logger getLogger(String name) {
+        if (name.equals("disabled")) return disabled;
         return new JavaLoggingAdapter(name);
     }
 
