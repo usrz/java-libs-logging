@@ -52,7 +52,7 @@ public final class JavaLoggingInitializer {
                 if (adapter == null) throw new IllegalStateException("No Java Logger instantiated");
 
             } catch (ClassCastException exception) {
-                throw new IllegalStateException("Java Logging not initialized:" +
+                System.err.println("WARNING: Java Logging not initialized:" +
                         " bridge=" + LogManager.getLogManager().getClass().getName() +
                         " adapter=" + Logger.getLogger(JavaLoggingInitializer.class.getName()).getClass().getName());
             }

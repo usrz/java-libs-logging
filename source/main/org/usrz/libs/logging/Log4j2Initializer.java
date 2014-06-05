@@ -50,7 +50,7 @@ public final class Log4j2Initializer {
                 if (adapter == null) throw new IllegalStateException("No Log4j v2 Logger instantiated");
 
             } catch (ClassCastException exception) {
-                throw new IllegalStateException("Log4j v2 Logging not initialized:" +
+                System.err.println("WARNING: Log4j v2 Logging not initialized:" +
                         " bridge=" + LogManager.getContext().getClass().getName() +
                         " adapter=" + LogManager.getLogger(Log4j2Initializer.class).getClass().getName());
             }

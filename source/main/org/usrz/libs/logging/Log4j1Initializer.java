@@ -47,7 +47,7 @@ public final class Log4j1Initializer {
                 if (adapter == null) throw new IllegalStateException("No Log4j v1 Logger instantiated");
 
             } catch (ClassCastException exception ) {
-                throw new IllegalStateException("Log4j v1 Logging not initialized:" +
+                System.err.println("WARNING: Log4j v1 Logging not initialized:" +
                         " bridge=" + LogManager.getLoggerRepository().getClass().getName() +
                         " adapter=" + Logger.getLogger(Log4j1Initializer.class).getClass().getName());
             }

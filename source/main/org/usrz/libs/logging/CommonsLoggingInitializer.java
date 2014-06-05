@@ -51,7 +51,7 @@ public final class CommonsLoggingInitializer {
                 if (adapter == null) throw new IllegalStateException("No Commons Log instantiated");
 
             } catch (ClassCastException exception) {
-                throw new IllegalStateException("Commons Logging not initialized:" +
+                System.err.println("WARNING: Commons Logging not initialized:" +
                         " bridge=" + LogFactory.getFactory().getClass().getName() +
                         " adapter=" + LogFactory.getLog(JavaLoggingInitializer.class).getClass().getName());
             }
