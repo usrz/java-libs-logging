@@ -39,11 +39,14 @@ public final class JavaLoggingInitializer {
         if (initialized) return;
 
         synchronized (JavaLoggingInitializer.class) {
-            try {
-                final String property = System.getProperty(SYSTEM_PROPERTY);
-                if ((property != null) && (!JavaLoggingBridge.class.getName().equals(property)))
-                    throw new IllegalStateException("System property \"" + SYSTEM_PROPERTY + "\" set to \"" + property + "\"");
-                System.setProperty(SYSTEM_PROPERTY, JavaLoggingBridge.class.getName());
+            final String property = System.getProperty(SYSTEM_PROPERTY);
+            if ((property != null) && (!JavaLoggingBridge.class.getName().equals(property)))
+                throw new IllegalStateException("System property \"" + SYSTEM_PROPERTY + "\" set to \"" + property + "\"");
+            System.setProperty(SYSTEM_PROPERTY, JavaLoggingBridge.class.getName());
+
+            final LogManager manager = LogManager.getLogManager();
+
+            if (manager instanceof JavaLoggingBridge) try {
 
                 final JavaLoggingBridge bridge = (JavaLoggingBridge) LogManager.getLogManager();
                 final JavaLoggingAdapter adapter = (JavaLoggingAdapter) Logger.getLogger(JavaLoggingInitializer.class.getName());
@@ -52,9 +55,19 @@ public final class JavaLoggingInitializer {
                 if (adapter == null) throw new IllegalStateException("No Java Logger instantiated");
 
             } catch (ClassCastException exception) {
+
                 System.err.println("WARNING: Java Logging not initialized:" +
                         " bridge=" + LogManager.getLogManager().getClass().getName() +
                         " adapter=" + Logger.getLogger(JavaLoggingInitializer.class.getName()).getClass().getName());
+
+            } else {
+
+                final JavaLoggingHandler handler = new JavaLoggingHandler();
+
+                manager.reset();
+                manager.getLogger("").addHandler(handler);
+                manager.getLogger(Logger.GLOBAL_LOGGER_NAME).addHandler(handler);
+
             }
 
             /* We are initialized */

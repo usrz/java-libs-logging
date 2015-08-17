@@ -64,6 +64,10 @@ public final class JavaLoggingAdapter extends Logger {
 
     /* ====================================================================== */
 
+    protected JavaLoggingAdapter() {
+        this(Logger.GLOBAL_LOGGER_NAME);
+    }
+
     protected JavaLoggingAdapter(String name) {
         super(name, null);
         logger = SLF4JFactory.getLogger(name);
@@ -115,12 +119,12 @@ public final class JavaLoggingAdapter extends Logger {
 
     @Override
     public void addHandler(Handler handler) {
-        throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
+        // throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
     }
 
     @Override
     public void removeHandler(Handler handler) {
-        throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
+        // throw new UnsupportedOperationException("Sorry, Dave, I can't let you do that");
     }
 
 }

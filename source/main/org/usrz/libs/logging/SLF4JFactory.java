@@ -17,6 +17,8 @@ package org.usrz.libs.logging;
 
 import static org.slf4j.Logger.ROOT_LOGGER_NAME;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -32,27 +34,35 @@ import org.slf4j.spi.LocationAwareLogger;
  */
 public class SLF4JFactory {
 
+    private static final ConcurrentHashMap<String, LocationAwareLogger> CACHE = new ConcurrentHashMap<>();
+
     /**
      * Return the root {@link LocationAwareLogger}.
      */
     protected static final LocationAwareLogger getLogger() {
-        return asLocationAwareLogger(LoggerFactory.getLogger(ROOT_LOGGER_NAME));
+        return getLogger(ROOT_LOGGER_NAME);
     }
 
     /**
      * Return the {@link LocationAwareLogger} for the specified {@link Class}.
      */
     protected static final LocationAwareLogger getLogger(Class<?> clazz) {
-        return asLocationAwareLogger(clazz != null ? LoggerFactory.getLogger(clazz) :
-                                         LoggerFactory.getLogger(ROOT_LOGGER_NAME));
+        return getLogger(clazz != null ? clazz.getName() : ROOT_LOGGER_NAME);
     }
 
     /**
      * Return the {@link LocationAwareLogger} with the specified name.
      */
     protected static final LocationAwareLogger getLogger(String name) {
-        return asLocationAwareLogger(name != null ? LoggerFactory.getLogger(name) :
-                                         LoggerFactory.getLogger(ROOT_LOGGER_NAME));
+        if (name == null) name = ROOT_LOGGER_NAME;
+
+        final LocationAwareLogger cached = CACHE.get(name);
+        if (cached != null) return cached;
+
+        final LocationAwareLogger created = asLocationAwareLogger(LoggerFactory.getLogger(name));
+        final LocationAwareLogger previous = CACHE.putIfAbsent(name, created);
+
+        return previous == null ? created : previous;
     }
 
     /**
